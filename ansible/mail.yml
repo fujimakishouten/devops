@@ -9,7 +9,7 @@
     - spamassassin
     - postfix
     - dovecot
-    - php
+    - php-fpm
     - nginx
     - postfixadmin
 
