@@ -3,4 +3,9 @@
   with_items:
     - letsencrypt
 
+- name: Ensure config direcotry
+  file: path=/etc/letsencrypt state=directory
+
+- name: Copy client.conf
+  template: src=client.conf.j2 dest=/etc/letsencrypt/client.conf backup=yes
 

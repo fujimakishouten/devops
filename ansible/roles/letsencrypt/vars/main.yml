@@ -1,0 +1,7 @@
+authenticator: webroot
+webroot_path: /var/www/html
+email: hostmaster@example.com
+domains:
+  - example.com
+  - www.example.com
+
