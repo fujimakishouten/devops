@@ -4,6 +4,27 @@
     - mysql-server
     - python-mysqldb
 
+- name: Ensure conf.d directory
+  file: path=/etc/mysql/conf.d state=directory
+
+- name: Ensure mysql.conf.d directory
+  file: path=/etc/mysql/mysql.conf.d state=directory
+
+- name: Copy confg files
+  copy: src=conf.d/{{item}} dest=/etc/mysql/conf.d/{{item}} backup=yes
+  with_items:
+    - client.cnf
+    - isamchk.cnf
+    - mysql.cnf
+    - mysqldump.cnf
+  notify: restart mysql
+
+- name: Copy mysql config files
+  copy: src=mysql.conf.d/{{item}} dest=/etc/mysql/mysql.conf.d/{{item}} backup=yes
+  with_items:
+    - mysqld.cnf
+    - mysqld_safe_syslog.cnf
+  notify: restart mysql
 - name: Ensure password file directory
   file: path=/usr/share/mysql/password state=directory mode=750
 

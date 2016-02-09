@@ -1,0 +1,2 @@
+[mysql]
+#no-auto-rehash	# faster start of mysql but no tab completition
