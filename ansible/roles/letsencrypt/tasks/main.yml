@@ -1,0 +1,6 @@
+- name: Install Let's encrypt
+  apt: pkg={{item}} state=latest
+  with_items:
+    - letsencrypt
+
+

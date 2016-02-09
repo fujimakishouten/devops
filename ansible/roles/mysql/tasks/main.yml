@@ -1,0 +1,32 @@
+- name: Install MySQL server
+  apt: pkg={{item}} state=latest
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name: Ensure password file directory
+  file: path=/usr/share/mysql/password state=directory mode=750
+
+- name: Copy password file
+  copy: src={{item}} dest=/usr/share/mysql/password/{{item}} mode=640
+  with_items:
+    - dbroot
+
+- name: Register root user name
+  shell: cat /usr/share/mysql/password/dbroot | cut --delimiter=":" --fields=1
+  register: user
+
+- name: Register root password
+  shell: cat /usr/share/mysql/password/dbroot | cut --delimiter=":" --fields=2
+  register: password
+
+- name: Ensure root user
+  mysql_user:
+    name: "{{user.stdout}}"
+    password: "{{password.stdout}}"
+    priv: "*.*:ALL,GRANT"
+    state: present
+
+- name: .my.cnf
+  template: src=my.cnf.j2 dest=~/.my.cnf mode=600 backup=yes
+

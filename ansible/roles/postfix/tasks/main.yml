@@ -1,0 +1,79 @@
+- name: Install postfix
+  apt: pkg={{item}} state=latest
+  with_items:
+    - dovecot-mysql
+    - procmail
+    - postfix-mysql
+    - postfix-policyd-spf-python
+
+- name: Ensure maps directory
+  file: path=/etc/postfix/maps state=directory
+
+- name: Ensure virtual mailbox directory
+  file: path=/var/lib/postfix/mailbox state=directory mode=700
+
+- name: Ensure database password file directory
+  file: path=/usr/share/mysql/password state=directory mode=750
+
+- name: Copy database password file
+  copy: src={{item}} dest=/usr/share/mysql/password/{{item}} mode=640
+  with_items:
+    - postfix
+
+- name: Register database user name
+  shell: cat /usr/share/mysql/password/postfix | cut --delimiter=":" --fields=1
+  register: user
+
+- name: Register database password
+  shell: cat /usr/share/mysql/password/postfix | cut --delimiter=":" --fields=2
+  register: password
+
+- name: Ensure database user
+  mysql_user:
+    name: "{{user.stdout}}"
+    password: "{{password.stdout}}"
+    priv: "{{dbname}}.*:ALL,GRANT"
+    state: present
+
+- name: Ensure database
+  mysql_db:
+      name: "{{dbname}}"
+      state: present
+
+- name: Get postfix user id
+  command: id -u postfix
+  register: uid
+
+- name: Get postfix group id
+  command: id -g postfix
+  register: gid
+
+- name: Copy master.cf
+  copy: src=master.cf dest=/etc/postfix/master.cf backup=yes
+  notify: restart postfix
+
+- name: Copy main.cf
+  template: src=main.cf.j2 dest=/etc/postfix/main.cf backup=yes
+  notify: restart postfix
+
+- name: Copy maps
+  template: src=maps/{{item}}.j2 dest=/etc/postfix/maps/{{item}} mode=600 backup=yes
+  with_items:
+   - mysql_virtual_alias_domain_catchall_maps.cf
+   - mysql_virtual_alias_domain_mailbox_maps.cf
+   - mysql_virtual_alias_domain_maps.cf
+   - mysql_virtual_alias_maps.cf
+   - mysql_virtual_domains_maps.cf
+   - mysql_virtual_mailbox_limit_maps.cf
+   - mysql_virtual_mailbox_maps.cf
+  notify: restart postfix
+
+- name: Copy transport.cf
+  template: src=transport.cf.j2 dest=/etc/postfix/transport.cf backup=yes
+  notify: 
+    - update transport db
+    - restart postfix
+
+- name: Copy policyd-spf.conf
+  copy: src=policyd-spf.conf dest=/etc/postfix-policyd-spf-python/policyd-spf.conf backup=yes
+

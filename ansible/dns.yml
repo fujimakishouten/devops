@@ -1,0 +1,6 @@
+- hosts: mongodb
+  sudo: yes
+  roles:
+    - common
+    - nsd
+

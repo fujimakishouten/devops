@@ -1,0 +1,15 @@
+- hosts: mail
+  sudo: yes
+  roles:
+    - common
+    - letsencrypt
+    - mysql
+    - clamsmtp
+    - opendkim
+    - spamassassin
+    - postfix
+    - dovecot
+    - php
+    - nginx
+    - postfixadmin
+

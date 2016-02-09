@@ -1,0 +1,3 @@
+# TXT field of DNS    domain:selector:private key file
+# key.example.com    example.com:default:/etc/opendkim/keys/example.com/default.private
+

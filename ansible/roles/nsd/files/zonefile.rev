@@ -1,0 +1,12 @@
+# $TTL 900
+# @     IN SOA ns.example.com. hostmaster.example.com. (
+#           2015111100   ; serial
+#                 7200   ; refresh
+#                  900   ; retry
+#              1209600   ; expire
+#                86400   ; minimum
+#       )
+#       IN NS  ns.example.com.
+#       IN A   255.255.255.0   ; subnet mask
+# 1     IN PTR example.com.
+

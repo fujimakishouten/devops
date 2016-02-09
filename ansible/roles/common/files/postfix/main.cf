@@ -1,0 +1,115 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+readme_directory = no
+
+# SSL
+smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3
+smtp_tls_mandatory_protocols = !SSLv2, !SSLv3
+
+# TLS parameters
+#smtpd_tls_CAfile                 = /etc/postfix/private/mail.plume.ne.jp.ca
+#smtpd_tls_cert_file              = /etc/postfix/private/mail.plume.ne.jp.pem
+#smtpd_tls_key_file               = /etc/postfix/private/mail.plume.ne.jp.key
+smtpd_tls_CAfile                 = /etc/letsencrypt/live/mail.plume.ne.jp/chain.pem
+smtpd_tls_cert_file              = /etc/letsencrypt/live/mail.plume.ne.jp/cert.pem
+smtpd_tls_key_file               = /etc/letsencrypt/live/mail.plume.ne.jp/privkey.pem
+smtpd_use_tls                    = yes
+smtpd_tls_auth_only              = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database  = btree:${data_directory}/smtp_scache
+tls_random_source                = /dev/urandom
+
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+
+#myhostname          = www13136uf.sakura.ne.jp
+myhostname          = plume.ne.jp
+alias_maps          = hash:/etc/aliases
+alias_database      = hash:/etc/aliases
+myorigin            = /etc/mailname
+mydestination       = mail.plume.jp mail.plume.jp www13136uf.sakura.ne.jp localhost localhost.localdomain
+relayhost           = 
+mynetworks          = 127.0.0.0/8, 49.212.166.150, [::ffff:127.0.0.0]/104, [::1]/128
+mailbox_command     = procmail -a "$EXTENSION"
+mailbox_size_limit  = 0
+message_size_limit  = 0
+recipient_delimiter = +
+inet_interfaces     = all
+
+# Virtual transport
+virtual_minimum_uid     = 106
+virtual_uid_maps        = static:106
+virtual_gid_maps        = static:109
+virtual_mailbox_limit   = 0
+virtual_mailbox_base    = /var/lib/postfix/mailbox
+virtual_mailbox_domains = proxy:mysql:/etc/postfix/maps/mysql_virtual_domains_maps.cf
+virtual_alias_maps =
+   proxy:mysql:/etc/postfix/maps/mysql_virtual_alias_maps.cf,
+   proxy:mysql:/etc/postfix/maps/mysql_virtual_alias_domain_maps.cf,
+   proxy:mysql:/etc/postfix/maps/mysql_virtual_alias_domain_catchall_maps.cf
+virtual_mailbox_maps =
+   proxy:mysql:/etc/postfix/maps/mysql_virtual_mailbox_maps.cf,
+   proxy:mysql:/etc/postfix/maps/mysql_virtual_alias_domain_mailbox_maps.cf
+
+# Additional for quota support
+# virtual_create_maildirsize     = yes
+# virtual_mailbox_extended       = yes
+# virtual_mailbox_limit_maps     = mysql:/etc/postfix/mysql_virtual_mailbox_limit_maps.cf
+# virtual_mailbox_limit_override = yes
+# virtual_maildir_limit_message  = Sorry, the user's maildir has overdrawn his diskspace quota, please try again later.
+# virtual_overquota_bounce       = yes 
+
+# SMTP Auth
+smtpd_sasl_auth_enable      = yes 
+smtpd_sasl_type             = dovecot
+#smtpd_sasl_path             = /var/run/dovecot/auth-client
+smtpd_sasl_path             = private/auth 
+smtpd_sasl_security_options = noanonymous
+#broken_sasl_auth_client     = yes
+
+smtpd_recipient_restrictions = permit_mynetworks,
+                               permit_sasl_authenticated,
+                               reject_unauth_destination,
+                               check_policy_service unix:private/policy-spf
+#smtpd_recipient_restrictions = permit_mynetworks,
+#                               permit_sasl_authenticated,
+#                               reject_unauth_destination,
+#                               reject_rbl_client all.rbl.jp,
+#                               reject_rbl_client bl.spamcop.net,
+#                               reject_rbl_client sbl_xbl.spamhaus.org,
+#                               permit
+
+# Milter 
+milter_default_action = accept
+milter_protocol       = 2
+smtpd_milters         = inet:127.0.0.1:8891
+non_smtpd_milters     = inet:127.0.0.1:8891
+
+# ClamAV
+content_filter = scan:127.0.0.1:10025
+receive_override_options = no_address_mappings
+
+# amavis settings
+#content_filter = smtp-amavis:[127.0.0.1]:10024
+
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+
+# Transport
+#transport_maps = hash:/etc/postfix/maps/transport.cf
+#relay_domains  = plume.jp,plume.ne.jp
+

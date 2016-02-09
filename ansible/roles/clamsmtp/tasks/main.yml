@@ -1,0 +1,23 @@
+- name: Install ClamAV
+  apt: pkg={{item}} state=latest
+  with_items:
+    - clamsmtp
+
+- name: Ensure clamsmtpd directory
+  file: path=/etc/clamsmtp state=directory
+
+- name: Get original clamsmtpd.conf status
+  stat: path=/etc/clamsmtpd.conf
+  register: clamsmtpd
+
+- name: Move clamsmtpd.conf to clamsmtp directory
+  command: mv /etc/clamsmtpd.conf /etc/clamsmtp/clamsmtpd.conf
+  when: not clamsmtpd.stat.islnk
+
+- name: Copy clamsmtpd.conf
+  copy: src=clamsmtpd.conf dest=/etc/clamsmtp/clamsmtpd.conf backup=yes
+  notify: restart clamsmtp
+
+- name: Link clamsmtpd.conf
+  file: src=/etc/clamsmtp/clamsmtpd.conf dest=/etc/clamsmtpd.conf state=link
+

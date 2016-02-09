@@ -1,0 +1,11 @@
+default_language: en
+database_type: mysqli
+admin_email: postmaster@example.com
+page_size: 20
+aliases: 10
+mailboxes: 10
+maxquota: 10
+domain_quota_default: 2048
+quota: No
+domain_quota: No
+quota_multiplier: 1024000

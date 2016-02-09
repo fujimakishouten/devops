@@ -1,0 +1,3 @@
+# Generate key
+sudo opendkim-genkey --directory=/etc/opendkim/keys/example.com --domain=example.com --selector=default
+
