@@ -1,5 +1,5 @@
 - hosts: mail
-  sudo: yes
+  become: yes
   roles:
     - letsencrypt
 

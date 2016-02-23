@@ -1,5 +1,5 @@
 - hosts: mongodb
-  sudo: yes
+  become: yes
   roles:
     - common
     - mongodb
