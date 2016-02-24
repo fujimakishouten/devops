@@ -1,0 +1,6 @@
+- hosts: php-cli
+  become: yes
+  roles:
+    - common
+    - php-cli
+

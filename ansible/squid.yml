@@ -1,0 +1,6 @@
+- hosts: squid
+  become: yes
+  roles:
+    - common
+    - squid
+

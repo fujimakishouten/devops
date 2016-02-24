@@ -1,0 +1,8 @@
+- name: Install PHP
+  apt: pkg={{item}} state=latest
+  with_items:
+    - php7.0-cli
+
+- name: Copy php.ini
+  copy: src=php.ini dest=/etc/php/7.0/fpm/php.ini backup=yes
+
