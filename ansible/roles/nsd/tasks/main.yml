@@ -17,6 +17,11 @@
   copy: src={{item}} dest=/etc/nsd/nsd.conf.d/{{item}} backup=yes
   with_items:
     - server.conf
+  notify: restart nsd
+
+- name: Copy zone config file
+  template: src={{item}} dest=/etc/nsd/nsd.conf.d/{{item}} backup=yes
+  with_items:
     - zone.conf
   notify: restart nsd
 

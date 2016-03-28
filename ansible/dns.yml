@@ -1,4 +1,4 @@
-- hosts: mongodb
+- hosts: dns
   become: yes
   roles:
     - common
