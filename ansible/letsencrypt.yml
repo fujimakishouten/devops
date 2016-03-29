@@ -1,5 +1,7 @@
 - hosts: mail
   become: yes
   roles:
+    - common
+    - apt
     - letsencrypt
 

@@ -1,0 +1,62 @@
+##
+# Debian Installer
+##
+
+##
+# Debian testing
+##
+
+# Main repository
+deb http://ftp.jp.debian.org/debian/ testing main
+deb-src http://ftp.jp.debian.org/debian/ testing main
+
+# Contrib repository
+deb http://ftp.jp.debian.org/debian/ testing contrib
+deb-src http://ftp.jp.debian.org/debian/ testing contrib
+
+# Non free repository
+deb http://ftp.jp.debian.org/debian/ testing non-free
+deb-src http://ftp.jp.debian.org/debian/ testing non-free
+
+
+##
+# Security update
+##
+
+# Main repository
+deb http://security.debian.org/ testing/updates main
+deb-src http://security.debian.org/ testing/updates main
+
+# Contrib repository
+deb http://security.debian.org/ testing/updates contrib
+deb-src http://security.debian.org/ testing/updates contrib
+
+# Non-free repository
+deb http://security.debian.org/ testing/updates non-free
+deb-src http://security.debian.org/ testing/updates non-free
+
+
+##
+# Volatile
+##
+
+# Main repository
+deb http://ftp.jp.debian.org/debian/ testing-updates main
+deb-src http://ftp.jp.debian.org/debian/ testing-updates main
+
+# Contrib repository
+deb http://ftp.jp.debian.org/debian/ testing-updates contrib
+deb-src http://ftp.jp.debian.org/debian/ testing-updates contrib
+
+# Non free repository
+deb http://ftp.jp.debian.org/debian/ testing-updates non-free
+deb-src http://ftp.jp.debian.org/debian/ testing-updates non-free
+
+
+##
+# Debian experimental
+##
+
+deb http://ftp.jp.debian.org/debian/ experimental main
+deb-src http://ftp.jp.debian.org/debian/ experimental main
+
