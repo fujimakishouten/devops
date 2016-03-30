@@ -28,7 +28,7 @@
 {% for domain in domains %}
 # zone:
 #     name: "{{ domain }}"
-#     zonefile: {{ domain }}"
+#     zonefile: {{ domain }}
 {% for host in secondary %}
 #     provide-xfr: {{ host }} NOKEY
 #     notify: {{ host }} NOKEY
@@ -42,7 +42,7 @@
 {% for domain in domains %}
 # zone:
 #     name: "{{ domain }}"
-#     zonefile: {{ domain }}"
+#     zonefile: {{ domain }}
 #     request-xfr: {{ primary }} NOKEY
 #     allow-notify: {{ primary }} NOKEY
 #

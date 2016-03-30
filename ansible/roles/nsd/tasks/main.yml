@@ -20,7 +20,7 @@
   notify: restart nsd
 
 - name: Copy zone config file
-  template: src={{item}} dest=/etc/nsd/nsd.conf.d/{{item}} backup=yes
+  template: src={{item}}.j2 dest=/etc/nsd/nsd.conf.d/{{item}} backup=yes
   with_items:
     - zone.conf
   notify: restart nsd
