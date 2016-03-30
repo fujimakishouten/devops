@@ -3,6 +3,7 @@
   with_items:
     - dovecot-mysql
     - procmail
+    - postfix
     - postfix-mysql
     - postfix-policyd-spf-python
 
