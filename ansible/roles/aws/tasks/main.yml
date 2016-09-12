@@ -1,0 +1,14 @@
+- name: Install pip
+  apt: pkg={{item}} state=latest
+  with_items:
+    - python-pip
+
+- name: Install awscli
+  pip: name=awscli state=present
+
+- name: Ensure ec2-metadata directory
+  file: path=/opt/amazon/ec2-metadata state=directory
+
+- name: Get ec2-metadata command
+  get_url: url=http://s3.amazonaws.com/ec2metadata/ec2-metadata dest=/opt/amazon/ec2-metadata/ec2-metadata mode=755
+

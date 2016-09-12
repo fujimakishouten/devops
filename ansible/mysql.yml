@@ -1,7 +1,7 @@
-- hosts: mail
+- hosts: mysql
   become: yes
   roles:
     - common
     - apt
-    - letsencrypt
+    - mysql
 
