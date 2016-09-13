@@ -1,0 +1,7 @@
+- hosts: cassandra
+  become: yes
+  roles:
+    - common
+    - apt
+    - cassandra
+

@@ -1,0 +1,34 @@
+- name: Add cassandra apt key
+  apt_key: url=https://www.apache.org/dist/cassandra/KEYS state=present
+
+- name: Add cassandra repository
+  apt_repository: repo="deb http://www.apache.org/dist/cassandra/debian {{release_series}} main" state=present update_cache=yes
+
+- name: Add cassandra source repository
+  apt_repository: repo="deb-src http://www.apache.org/dist/cassandra/debian {{release_series}} main" state=present update_cache=yes
+
+- name: Install pip
+  apt: pkg={{item}} state=latest
+  with_items:
+    - python-pip
+
+- name: Install cassandra driver
+  pip: name=cassandra-driver state=present
+
+- name: Copy environment file
+  copy: src=environment dest=/etc/environment backup=yes
+
+- name: Install cassandra
+  apt: pkg={{item}} state=latest
+  with_items:
+    - cassandra
+    - cassandra-tools
+  notify: restart cassandra
+
+- name: Copy cassandra settings
+  template: src={{item}}.j2 dest=/etc/cassandra/{{item}} backup=yes
+  with_items:
+    - cassandra-env.sh
+    - cassandra.yaml
+  notify: restart cassandra
+

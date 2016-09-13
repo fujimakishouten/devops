@@ -1,0 +1,11 @@
+release_series: 37x
+max_heap_size: 128M
+heap_new_size: 32M
+cluster_name: Test Cluster
+seeds:
+    - 127.0.0.1
+listen_address: localhost
+rpc_address: 0.0.0.0
+broadcast_rpc_address: localhost
+
+
