@@ -17,10 +17,7 @@
   register: config
 
 - name: Download postfixadmin
-  command: |
-    wget {{url}}
-  args:
-    chdir: /tmp
+  get_url: url={{url}} dest=/tmp
   when: not config.stat.exists
 
 - name: Exact postfixadmin
