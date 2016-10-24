@@ -3,7 +3,7 @@
   with_items:
     - squid
 
-#- name: Copy squid.conf
-#  copy: src=squid.conf dest=/etc/squid/squid.conf backup=yes
-#  notify: restart squid
+- name: Copy squid.conf
+  copy: src=squid.conf dest=/etc/squid/squid.conf backup=yes
+  notify: restart squid
 

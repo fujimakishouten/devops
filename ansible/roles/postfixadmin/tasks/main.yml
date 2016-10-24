@@ -18,20 +18,20 @@
 
 - name: Download postfixadmin
   command: |
-    wget http://jaist.dl.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-2.93/postfixadmin-2.93.tar.gz
+    wget {{url}}
   args:
     chdir: /tmp
   when: not config.stat.exists
 
 - name: Exact postfixadmin
   command: |
-    tar zxf postfixadmin-2.93.tar.gz -C /usr/share/postfixadmin
+    tar zxf postfixadmin-{{version}}.tar.gz -C /usr/share/postfixadmin
   args:
     chdir: /tmp
   when: not config.stat.exists
 
 - name: Link postfixadmin
-  file: src=/usr/share/postfixadmin/postfixadmin-2.93 dest=/usr/share/postfixadmin/postfixadmin state=link
+  file: src=/usr/share/postfixadmin/postfixadmin-{{version}} dest=/usr/share/postfixadmin/postfixadmin state=link
 
 - name: Configure cache directory
   file: path=/usr/share/postfixadmin/postfixadmin/templates_c group=www-data mode=775
