@@ -9,6 +9,7 @@
   with_items:
     - apache2-utils
     - aptitude
+    - apt-transport-https
     - awscli
     - brotli
     - clamav
@@ -28,12 +29,12 @@
     - nkf
     - pbzip2
     - pwgen
-    - python3-venv
     - rar
     - rkhunter
     - screen
     - sl
     - sshfs
+    - strace
     - sudo
     - sysstat
     - tcpdump
