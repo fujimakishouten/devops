@@ -1,3 +1,4 @@
+selector: default
 domains:
   - example.com
 
