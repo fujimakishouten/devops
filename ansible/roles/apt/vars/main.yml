@@ -19,6 +19,7 @@ packages:
   - lhasa
   - lzip
   - nkf
+  - peco
   - pbzip2
   - pwgen
   - rar
