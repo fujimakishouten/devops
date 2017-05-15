@@ -15,4 +15,5 @@
   with_items:
     - rules.v4
     - rules.v6
+  notify: reload iptables
 
