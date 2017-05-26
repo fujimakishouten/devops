@@ -1,9 +1,9 @@
 - name: Install packages
   apt:
-    name={{item}}
-    state=latest
-    update_cache=yes
-  with_items: 
+    name: "{{item}}"
+    state: latest
+    update_cache: yes
+  with_items:
     - iptables
     - iptables-persistent
 
@@ -15,5 +15,15 @@
   with_items:
     - rules.v4
     - rules.v6
-  notify: reload iptables
+  notify: restart netfilter-persistent
 
+- name: Copy rsyslog settings
+  copy:
+    src: iptables.conf
+    dest: /etc/rsyslog.d/iptables.conf
+  notify: restart rsyslog
+
+- name: Copy logrotate settings
+  copy:
+    src: iptables
+    dest: /etc/logrotate.d/iptables

@@ -1,3 +1,9 @@
-- name: reload iptables 
-  service: name=netfilter-persistent state=reloaded
+- name: restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
 
+- name: restart netfilter-persistent
+  service:
+    name: netfilter-persistent
+    state: restarted
