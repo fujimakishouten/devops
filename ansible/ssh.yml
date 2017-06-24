@@ -1,0 +1,7 @@
+- hosts: ssh
+  become: yes
+  roles:
+    - common
+    - apt
+    - ssh 
+
