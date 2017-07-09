@@ -1,7 +1,6 @@
 packages:
   - apache2-utils
   - aptitude
-  - apt-transport-https
   - awscli
   - brotli
   - clamav
