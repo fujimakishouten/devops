@@ -1,35 +1,62 @@
 - name: Install MySQL server
-  apt: pkg={{item}} state=latest
+  apt:
+    pkg: "{{item}}"
+    state: latest
   with_items:
-    - mysql-server
+    - default-mysql-server
     - python-mysqldb
+  register: mysql
 
-- name: Ensure conf.d directory
-  file: path=/etc/mysql/conf.d state=directory
+- name: Restart MySQL
+  service:
+    name: mysql
+    state: restarted
+  when: mysql.changed
 
-- name: Ensure mysql.conf.d directory
-  file: path=/etc/mysql/mysql.conf.d state=directory
+- name: Ensure config directory
+  file:
+    path: /etc/mysql/{{item}}
+    state: directory
+  with_items:
+    - conf.d
+    - mariadb.conf.d
 
 - name: Copy confg files
-  copy: src=conf.d/{{item}} dest=/etc/mysql/conf.d/{{item}} backup=yes
+  copy:
+    src: conf.d/{{item}}
+    dest: /etc/mysql/conf.d/{{item}}
+    backup: yes
   with_items:
-    - client.cnf
     - isamchk.cnf
     - mysql.cnf
     - mysqldump.cnf
+  register: update_config
   notify: restart mysql
 
-- name: Copy mysql config files
-  copy: src=mysql.conf.d/{{item}} dest=/etc/mysql/mysql.conf.d/{{item}} backup=yes
+- name: Copy mariadb config files
+  copy:
+    src: mariadb.conf.d/{{item}}
+    dest: /etc/mysql/mariadb.conf.d/{{item}}
+    backup: yes
   with_items:
-    - mysqld.cnf
-    - mysqld_safe_syslog.cnf
+    - 50-client.cnf
+    - 50-mysql-clients.cnf
+    - 50-mysqld_safe.cnf
+    - 50-server.cnf
+  register: update_mariadb_config
   notify: restart mysql
+
 - name: Ensure password file directory
-  file: path=/usr/share/mysql/password state=directory mode=750
+  file:
+    path: /usr/share/mysql/password
+    state: directory
+    mode: 750
 
 - name: Copy password file
-  copy: src={{item}} dest=/usr/share/mysql/password/{{item}} mode=640
+  copy:
+    src: "{{item}}"
+    dest: /usr/share/mysql/password/{{item}}
+    mode: 640
   with_items:
     - dbroot
 
@@ -49,5 +76,8 @@
     state: present
 
 - name: .my.cnf
-  template: src=my.cnf.j2 dest=~/.my.cnf mode=600 backup=yes
-
+  template:
+    src: my.cnf.j2
+    dest: ~/.my.cnf
+    mode: 600
+    backup: yes

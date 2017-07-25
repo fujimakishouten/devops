@@ -11,6 +11,7 @@ packages:
   - emacs24
   - git
   - global
+  - grc
   - htop
   - iotop
   - ipcalc
