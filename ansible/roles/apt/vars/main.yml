@@ -6,6 +6,7 @@ packages:
   - clamav
   - colordiff
   - convmv
+  - ctop
   - curl
   - dnsutils
   - emacs24
