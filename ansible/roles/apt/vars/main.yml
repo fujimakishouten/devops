@@ -9,7 +9,8 @@ packages:
   - ctop
   - curl
   - dnsutils
-  - emacs24
+  - emacs
+  - emacs25
   - git
   - global
   - grc
