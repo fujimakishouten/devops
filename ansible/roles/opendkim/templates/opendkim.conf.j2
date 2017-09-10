@@ -20,6 +20,29 @@ SigningTable   refile:/etc/opendkim/tables/signs
 #Mode			sv
 #SubDomains		no
 
+# Socket smtp://localhost
+#
+# ##  Socket socketspec
+# ##
+# ##  Names the socket where this filter should listen for milter connections
+# ##  from the MTA.  Required.  Should be in one of these forms:
+# ##
+# ##  inet:port@address           to listen on a specific interface
+# ##  inet:port                   to listen on all interfaces
+# ##  local:/path/to/socket       to listen on a UNIX domain socket
+#
+#Socket                  inet:8892@localhost
+Socket			local:/var/run/opendkim/opendkim.sock
+
+##  PidFile filename
+###      default (none)
+###
+###  Name of the file where the filter should write its pid before beginning
+###  normal operations.
+#
+PidFile               /var/run/opendkim/opendkim.pid
+
+
 # Always oversign From (sign using actual From and a null From to prevent
 # malicious signatures header fields (From and/or others) between the signer
 # and the verifier.  From is oversigned by default in the Debian pacakge
@@ -49,3 +72,10 @@ OversignHeaders		From
 
 TrustAnchorFile       /usr/share/dns/root.key
 
+##  Userid userid
+###      default (none)
+###
+###  Change to user "userid" before starting normal operation?  May include
+###  a group ID as well, separated from the userid by a colon.
+#
+UserID                opendkim
