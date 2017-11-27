@@ -110,7 +110,7 @@ namespace inbox {
 # Group to enable temporarily for privileged operations. Currently this is
 # used only with INBOX when either its initial creation or dotlocking fails.
 # Typically this is set to "mail" to give access to /var/mail.
-#mail_privileged_group =
+mail_privileged_group = mail
 
 # Grant access to these supplementary groups for mail processes. Typically
 # these are used to set up access to shared mailboxes. Note that it may be
@@ -219,6 +219,15 @@ first_valid_gid = {{gid.stdout}}
 # Mailbox list indexes can be used to optimize IMAP STATUS commands. They are
 # also required for IMAP NOTIFY extension to be enabled.
 #mailbox_list_index = no
+
+# Trust mailbox list index to be up-to-date. This reduces disk I/O at the cost
+# of potentially returning out-of-date results after e.g. server crashes.
+# The results will be automatically fixed once the folders are opened.
+#mailbox_list_index_very_dirty_syncs = yes
+
+# Should INBOX be kept up-to-date in the mailbox list index? By default it's
+# not, because most of the mailbox accesses will open INBOX anyway.
+#mailbox_list_index_include_inbox = no
 
 # The minimum number of mails in a mailbox before updates are done to cache
 # file. This allows optimizing Dovecot's behavior to do less disk writes at
