@@ -32,11 +32,8 @@
       backup: yes
   notify: restart bind9
 
-- name: Copy sample file
-  copy: src={{item}} dest=/etc/bind/samples/{{item}} backup=yes
-  with_items:
-    - zone.example.com
-    - dnssec
+- name: Copy sample files
+  copy: src=samples dest=/etc/bind
 
 - name: Check apparmor status
   stat:
