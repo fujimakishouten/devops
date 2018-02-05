@@ -1,0 +1,58 @@
+- name: Install BIND 
+  apt: pkg={{item}} state=latest
+  with_items:
+    - bind9
+
+- name: Ensure zone files directory
+  file:
+    path: /etc/bind/zone
+    state: directory
+
+- name: Ensure sample files directory
+  file:
+    path: /etc/bind/samples
+    state: directory
+
+- name: Ensure DNSSEC key directory
+  file:
+    path: /etc/bind/keys
+    state: directory
+
+- name: Copy named.conf.options file
+  copy:
+      src: named.conf.options
+      dest: /etc/bind/named.conf.options
+      backup: yes
+  notify: restart bind9
+
+- name: Copy named.comf.local file
+  template:
+      src: named.conf.local.j2
+      dest: /etc/bind/named.conf.local
+      backup: yes
+  notify: restart bind9
+
+- name: Copy sample file
+  copy: src={{item}} dest=/etc/bind/samples/{{item}} backup=yes
+  with_items:
+    - zone.example.com
+    - dnssec
+
+- name: Check apparmor status
+  stat:
+    path: /etc/apparmor.d
+  register: apparmor
+
+- name: Ensure apparmor local settings directory
+  file:
+      path: /etc/apparmor.d/local
+      state: directory
+  when: apparmor.stat.exists
+
+- name: Copy apparmor local setting
+  copy:
+      src: usr.sbin.named
+      dest: /etc/apparmor.d/local/usr.sbin.named
+      backup: yes
+  when: apparmor.stat.exists
+
