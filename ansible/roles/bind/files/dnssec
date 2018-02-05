@@ -1,0 +1,7 @@
+# Generate DNSSEC key paire
+
+```bash
+cd /etc/bind/keys
+sudo dnssec-keygen -a RSASHA512 -b 4096 -3 <domainname>
+```
+
