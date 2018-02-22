@@ -1,0 +1,34 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          swapoff 
+# Required-Start:
+# Required-Stop:
+# X-Start-Before:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Disable swap
+# Description: Disable swap
+### END INIT INFO
+
+set -e
+
+case "$1" in
+  start)
+	swapoff -a
+	;;
+  stop)
+    swapon -a
+    ;;
+  restart)
+    swapon -a
+    swapoff -a
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
+
