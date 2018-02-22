@@ -1,0 +1,32 @@
+- name: Install required packages
+  apt:
+    pkg: "{{item}}"
+    state: latest
+  with_items:
+    - apt-transport-https
+
+- name: Add google key
+  apt_key:
+    url: "{{item}}"
+    state: present
+  with_items:
+      - https://packages.cloud.google.com/apt/doc/apt-key.gpg 
+
+- name: Copy sources list
+  copy:
+    src: "{{item}}"
+    dest: /etc/apt/sources.list.d
+  with_items:
+      - google-cloud-sdk.list 
+
+- name: Update cache
+  apt:
+    update_cache: yes
+
+- name: Install google-cloud-sdk
+  apt:
+    pkg: "{{item}}"
+    state: latest
+  with_items:
+    - google-cloud-sdk 
+

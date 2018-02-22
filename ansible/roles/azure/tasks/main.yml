@@ -1,0 +1,31 @@
+- name: Install required packages
+  apt:
+    pkg: "{{item}}"
+    state: latest
+  with_items:
+    - apt-transport-https
+
+- name: Add microsoft key
+  apt_key:
+    keyserver: packages.microsoft.com
+    id: 52E16F86FEE04B979B07E28DB02C46DF417A0893
+    state: present
+
+- name: Copy sources list
+  copy:
+    src: "{{item}}"
+    dest: /etc/apt/sources.list.d
+  with_items:
+      - azure-cli.list
+
+- name: Update cache
+  apt:
+    update_cache: yes
+
+- name: Install azure-cli
+  apt:
+    pkg: "{{item}}"
+    state: latest
+  with_items:
+    - azure-cli
+
