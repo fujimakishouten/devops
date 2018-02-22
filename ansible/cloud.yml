@@ -1,0 +1,15 @@
+- hosts: aws
+  become: yes
+  roles:
+    - aws
+
+- hosts: azure
+  become: yes
+  roles:
+    - azure
+
+- hosts: gcp
+  become: yes
+  roles:
+    - gcp
+
