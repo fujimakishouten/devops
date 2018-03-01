@@ -8,6 +8,7 @@ packages:
   - convmv
   - ctop
   - curl
+  - direnv
   - dnsutils
   - emacs25-nox
   - git
@@ -43,3 +44,4 @@ packages:
   - whois
   - zsh
   - zstd
+
