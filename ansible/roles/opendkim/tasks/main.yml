@@ -18,10 +18,6 @@
   command: mv /etc/opendkim.conf /etc/opendkim/opendkim.conf
   when: not opendkim.stat.islnk
 
-- name: Copy default
-  copy: src=opendkim dest=/etc/default/opendkim backup=yes
-  notify: restart opendkim
-
 - name: Copy opendkim.conf
   template: src=opendkim.conf.j2 dest=/etc/opendkim/opendkim.conf backup=yes
   notify: restart opendkim
