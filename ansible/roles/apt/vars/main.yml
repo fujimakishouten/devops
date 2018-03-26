@@ -2,6 +2,7 @@ packages:
   - apache2-utils
   - aptitude
   - awscli
+  - axel
   - brotli
   - clamav
   - colordiff
