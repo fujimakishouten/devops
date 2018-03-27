@@ -6,5 +6,5 @@
     - php-mbstring
 
 - name: Copy php.ini
-  copy: src=php.ini dest=/etc/php/7.0/fpm/php.ini backup=yes
+  copy: src=php.ini dest=/etc/php/7.2/fpm/php.ini backup=yes
 
