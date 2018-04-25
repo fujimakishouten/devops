@@ -1,0 +1,21 @@
+- name: Install unbound
+  apt:
+    pkg: "{{item}}"
+    state: latest
+  with_items:
+    - unbound
+
+- name: Copy server.conf
+  copy:
+    src: server.conf
+    dest: /etc/unbound/unbound.conf.d/server.conf
+    backup: yes
+  notify: restart unbound
+
+- name: Copy stub-zone.conf
+  template:
+      src: "stub-zone.conf.j2"
+      dest: /etc/unbound/unbound.conf.d/stub-zone.conf
+      backup: yes
+  notify: restart unbound
+
