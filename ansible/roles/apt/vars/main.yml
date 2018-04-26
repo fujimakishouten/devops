@@ -22,6 +22,7 @@ packages:
   - ldnsutils
   - lhasa
   - lzip
+  - mosh
   - nkf
   - peco
   - pbzip2
