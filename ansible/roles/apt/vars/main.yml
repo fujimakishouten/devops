@@ -19,6 +19,7 @@ packages:
   - iotop
   - ipcalc
   - jq
+  - ldnsutils
   - lhasa
   - lzip
   - nkf
