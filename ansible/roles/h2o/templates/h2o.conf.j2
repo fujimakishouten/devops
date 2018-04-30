@@ -1,0 +1,32 @@
+# h2o
+server-name: "{{ server_name }}"
+user: debian-h2o
+pid-file: /run/h2o.pid
+
+## Logs
+access-log: "|rotatelogs -l -f -L /var/log/h2o/access.log -p /usr/share/h2o/compress_logs /var/log/h2o/access.log.%Y-%m-%d 86400"
+error-log: "|rotatelogs -l -f -L /var/log/h2o/error.log -p /usr/share/h2o/compress_logs /var/log/h2o/error.log.%Y-%m-%d 86400"
+
+## Listen
+listen:
+    port: 80
+#    port: 443
+#    ssl:
+#        key-file: /etc/letsencrypt/live/{{ default }}/privkey.pem
+#        certificate-file: /etc/letsencrypt/live/{{ default }}/fullchain.pem
+#        dh-file: /etc/h2o/dhparams/default.pem
+#        minimum-version: TLSv1
+#        cipher-suite: "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
+#        cipher-preference: server
+
+## Hosts
+hosts:
+  default:
+    paths:
+      /:
+        file.dir: /var/www/html
+      /server-status:
+        status: ON
+  {% for domain in domains %}<<: !file /etc/h2o/hosts/{{ domain }}.conf
+  {% endfor %}
+
