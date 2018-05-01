@@ -7,12 +7,18 @@ pid-file: /run/h2o.pid
 access-log: "|rotatelogs -l -f -L /var/log/h2o/access.log -p /usr/share/h2o/compress_logs /var/log/h2o/access.log.%Y-%m-%d 86400"
 error-log: "|rotatelogs -l -f -L /var/log/h2o/error.log -p /usr/share/h2o/compress_logs /var/log/h2o/error.log.%Y-%m-%d 86400"
 
+## Headers
+header.set: "X-Content-Type-Options: nosniff"
+
 ## FastCGI
 file.custom-handler:
     extension: .php
     fastcgi.connect:
         port: /var/run/php/php7.2-fpm.sock
         type: unix
+
+## Indexes
+file.index: ['index.html', 'index.xhtml', 'index.htm', 'index.php']
 
 ## Listen
 listen:
@@ -28,16 +34,19 @@ listen:
 
 ## Hosts
 hosts:
-  default:
-    paths:
-      /:
-        file.dir: /var/www/html
-#        redirect:
-#            url: /index.php/
-#            internal: YES
-#            status: 307
-      /server-status:
-        status: ON
-  {% for domain in domains %}<<: !file /etc/h2o/hosts/{{ domain }}.conf
-  {% endfor %}
+    default:
+        paths:
+            /:
+                file.dir: /var/www/html
+                redirect:
+                    url: /index.php/
+                    internal: YES
+                    status: 307
+            /server-status:
+                status: ON
+
+{% for domain in domains %}hosts:
+    <<: !file /etc/h2o/hosts/{{ domain }}.conf
+
+{% endfor %}
 
