@@ -10,22 +10,8 @@
 
 - name: Copy dhparams files
   copy:
-    src: "{{item}}"
-    dest: /etc/h2o/dhparams/{{item}}
-  with_items:
-    - default.pem
-
-- name: Ensure host configuration file directory
-  file:
-    path: /etc/h2o/hosts
-    state: directory
-
-- name: Copy host configuration files
-  template:
-    src: host.conf.j2
-    dest: /etc/h2o/hosts/{{item}}.conf
-    backup: yes
-  with_items: "{{domains}}"
+    src: default.pem 
+    dest: /etc/h2o/dhparams/default.pem
 
 - name: Copy h2o.conf file
   template:
