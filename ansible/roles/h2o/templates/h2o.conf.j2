@@ -8,7 +8,10 @@ access-log: "|rotatelogs -l -f -L /var/log/h2o/access.log -p /usr/share/h2o/comp
 error-log: "|rotatelogs -l -f -L /var/log/h2o/error.log -p /usr/share/h2o/compress_logs /var/log/h2o/error.log.%Y-%m-%d 86400"
 
 ## Headers
+header.set: "Cache-Control: no-transform"
 header.set: "X-Content-Type-Options: nosniff"
+header.set: "X-XSS-Protection: 1; mode=block"
+header.set: "X-Frame-Options: SAMEORIGIN"
 
 ## FastCGI
 file.custom-handler:
@@ -45,9 +48,4 @@ hosts:
                     status: 307
             /server-status:
                 status: ON
-
-{% for domain in domains %}hosts:
-    <<: !file /etc/h2o/hosts/{{ domain }}.conf
-
-{% endfor %}
 
