@@ -1,7 +1,3 @@
 server_name: "h2o (Debian)"
 default: example.com
-domains:
-    - example1.com
-    - example2.com
-    - example3.com
 
