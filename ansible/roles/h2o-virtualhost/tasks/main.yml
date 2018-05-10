@@ -4,6 +4,7 @@
     src: virtualhost.pem 
     dest: /etc/h2o/dhparams/{{item}}.pem
   with_items: "{{domains}}"
+  notify: restart h2o
 
 - name: Ensure host configuration file directory
   file:
@@ -16,13 +17,16 @@
     dest: /etc/h2o/hosts/{{item}}.conf
     backup: yes
   with_items: "{{domains}}"
+  notify: restart h2o
 
 - name: Add host settings to h2o.conf
   blockinfile:
     path: /etc/h2o/h2o.conf
     block: |
-        host:
+        hosts:
             <<: !file /etc/h2o/hosts/{{item}}.conf
     marker: "### Virtualhost: {{item}}"
   with_items: "{{domains}}"
+  notify: restart h2o
+
 
