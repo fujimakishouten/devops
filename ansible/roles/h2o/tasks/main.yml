@@ -12,10 +12,12 @@
   copy:
     src: default.pem 
     dest: /etc/h2o/dhparams/default.pem
+  notify: restart h2o
 
 - name: Copy h2o.conf file
   template:
     src: h2o.conf.j2
     dest: /etc/h2o/h2o.conf
     backup: yes
+  notify: restart h2o
 
