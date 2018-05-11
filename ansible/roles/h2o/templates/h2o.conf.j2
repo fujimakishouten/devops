@@ -1,5 +1,5 @@
 # h2o
-server-name: "{{ server_name }}"
+server-name: "{{server_name}}"
 user: debian-h2o
 pid-file: /run/h2o.pid
 
@@ -12,6 +12,9 @@ header.set: "Cache-Control: no-transform"
 header.set: "X-Content-Type-Options: nosniff"
 header.set: "X-XSS-Protection: 1; mode=block"
 header.set: "X-Frame-Options: SAMEORIGIN"
+
+## Reproxy
+reproxy: ON
 
 ## FastCGI
 file.custom-handler:
@@ -29,8 +32,8 @@ listen:
 listen:
 #    port: 443
 #    ssl:
-#        key-file: /etc/letsencrypt/live/{{ default }}/privkey.pem
-#        certificate-file: /etc/letsencrypt/live/{{ default }}/fullchain.pem
+#        key-file: /etc/letsencrypt/live/{{domain_name}}/privkey.pem
+#        certificate-file: /etc/letsencrypt/live/{{domain_name}}/fullchain.pem
 #        dh-file: /etc/h2o/dhparams/default.pem
 #        minimum-version: TLSv1
 #        cipher-suite: "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
@@ -41,11 +44,25 @@ hosts:
     default:
         paths:
             /:
+#                mruby.handler: |
+#                    Proc.new do |env|
+#                        if env['SERVER_PORT'] == "80"
+#                            if env['QUERY_STRING'].empty?
+#                                [301, {"Location" => "https://#{env['SERVER_HOST']}#{env['PATH_INFO']}"}, []]
+#                            else
+#                                [301, {"Location" => "https://#{env['SERVER_HOST']}#{env['PATH_INFO']}?#{env['QUERY_STRING']}"}, []]
+#                            end
+#                        elsif !/^www/.match(env['SERVER_HOST'])
+#                           [301, {"Location" => "https://www.#{env['SERVER_HOST']}"}, []]                                                                      
+#                        else
+#                            [399, {}, []]
+#                        end
+#                    end
                 file.dir: /var/www/html
-                redirect:
-                    url: /index.php/
-                    internal: YES
-                    status: 307
+#                redirect:
+#                    url: /index.php/
+#                    internal: YES
+#                    status: 307
             /server-status:
                 status: ON
 
