@@ -48,12 +48,12 @@ hosts:
 #                    Proc.new do |env|
 #                        if env['SERVER_PORT'] == "80"
 #                            if env['QUERY_STRING'].empty?
-#                                [301, {"Location" => "https://#{env['SERVER_HOST']}#{env['PATH_INFO']}"}, []]
+#                                [301, {"Location" => "https://#{env['HTTP_HOST']}#{env['PATH_INFO']}"}, []]
 #                            else
-#                                [301, {"Location" => "https://#{env['SERVER_HOST']}#{env['PATH_INFO']}?#{env['QUERY_STRING']}"}, []]
+#                                [301, {"Location" => "https://#{env['HTTP_HOST']}#{env['PATH_INFO']}?#{env['QUERY_STRING']}"}, []]
 #                            end
-#                        elsif !/^www/.match(env['SERVER_HOST'])
-#                           [301, {"Location" => "https://www.#{env['SERVER_HOST']}"}, []]                                                                      
+#                        elsif !/^www/.match(env['HTTP_HOST'])
+#                           [301, {"Location" => "https://www.#{env['HTTP_HOST']}"}, []]                                                                      
 #                        else
 #                            [399, {}, []]
 #                        end
