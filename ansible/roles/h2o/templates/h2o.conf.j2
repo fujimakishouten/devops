@@ -45,24 +45,15 @@ hosts:
         paths:
             /:
 #                mruby.handler: |
-#                    Proc.new do |env|
+#                Proc.new do |env|
 #                        if env['SERVER_PORT'] == "80"
-#                            if env['QUERY_STRING'].empty?
-#                                [301, {"Location" => "https://#{env['HTTP_HOST']}#{env['PATH_INFO']}"}, []]
-#                            else
-#                                [301, {"Location" => "https://#{env['HTTP_HOST']}#{env['PATH_INFO']}?#{env['QUERY_STRING']}"}, []]
-#                            end
-#                        elsif !/^www/.match(env['HTTP_HOST'])
-#                           [301, {"Location" => "https://www.#{env['HTTP_HOST']}"}, []]                                                                      
+#                            query_string = (env['QUERY_STRING'].empty?) ? "" : "?#{env['QUERY_STRING']}"
+#                            [301, {"Location" => "https://#{env['HTTP_HOST']}#{env['PATH_INFO']}#{query_string}"}, []]
 #                        else
 #                            [399, {}, []]
 #                        end
 #                    end
-                file.dir: /var/www/html
-#                redirect:
-#                    url: /index.php/
-#                    internal: YES
-#                    status: 307
+                file.dir: /var/www
             /server-status:
                 status: ON
 
