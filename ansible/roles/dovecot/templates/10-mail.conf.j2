@@ -75,6 +75,7 @@ namespace inbox {
   # Namespace handles its own subscriptions. If set to "no", the parent
   # namespace handles them (empty prefix should always have this as "yes")
   #subscriptions = yes
+
   # See 15-mailboxes.conf for definitions of special mailboxes.
 }
 
@@ -128,6 +129,7 @@ mail_privileged_group = mail
 # Dictionary for key=value mailbox attributes. This is used for example by
 # URLAUTH and METADATA extensions.
 #mail_attribute_dict =
+
 # A comment or note that is associated with the server. This value is
 # accessible for authenticated users through the IMAP METADATA server
 # entry "/shared/comment". 
@@ -163,7 +165,10 @@ mail_privileged_group = mail
 # methods. NFS users: flock doesn't work, remember to change mmap_disable.
 #lock_method = fcntl
 
-# Directory in which LDA/LMTP temporarily stores incoming mails >128 kB.
+# Directory where mails can be temporarily stored. Usually it's used only for
+# mails larger than >= 128 kB. It's used by various parts of Dovecot, for
+# example LDA/LMTP while delivering large mails or zlib plugin for keeping
+# uncompressed mails.
 #mail_temp_dir = /tmp
 
 # Valid UID range for users, defaults to 500 and above. This is mostly
@@ -218,7 +223,7 @@ first_valid_gid = {{gid.stdout}}
 
 # Mailbox list indexes can be used to optimize IMAP STATUS commands. They are
 # also required for IMAP NOTIFY extension to be enabled.
-#mailbox_list_index = no
+#mailbox_list_index = yes
 
 # Trust mailbox list index to be up-to-date. This reduces disk I/O at the cost
 # of potentially returning out-of-date results after e.g. server crashes.
@@ -267,6 +272,7 @@ protocol !indexer-worker {
   # be 0 for indexer-worker processes.
   #mail_vsize_bg_after_count = 0
 }
+
 ##
 ## Maildir-specific settings
 ##
@@ -366,7 +372,7 @@ protocol !indexer-worker {
 ##
 
 # Maximum dbox file size until it's rotated.
-#mdbox_rotate_size = 2M
+#mdbox_rotate_size = 10M
 
 # Maximum dbox file age until it's rotated. Typically in days. Day begins
 # from midnight, so 1d = today, 2d = yesterday, etc. 0 = check disabled.
