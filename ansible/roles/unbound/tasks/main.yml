@@ -12,10 +12,14 @@
     backup: yes
   notify: restart unbound
 
-- name: Copy stub-zone.conf
+- name: Copy configs
   template:
-      src: "stub-zone.conf.j2"
-      dest: /etc/unbound/unbound.conf.d/stub-zone.conf
+      src: "{{item}}.j2"
+      dest: /etc/unbound/unbound.conf.d/{{item}}
       backup: yes
+  with_items:
+    - local-data.conf
+    - local-zone.conf
+    - stub-zone.conf
   notify: restart unbound
 
