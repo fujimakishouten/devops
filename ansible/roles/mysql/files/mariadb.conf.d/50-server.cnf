@@ -88,9 +88,7 @@ max_binlog_size     = 100M
 innodb_flush_method = O_DIRECT
 innodb_flush_log_at_trx_commit = 1
 innodb_file_per_table = 1
-innodb_file_format = Barracuda
 innodb_autoextend_increment = 1
-innodb_large_prefix = 1
 #
 # * Security Features
 #
@@ -140,3 +138,10 @@ collation-server      = utf8mb4_general_ci
 # If you use the same .cnf file for MariaDB of different versions,
 # use this group for options that older servers don't understand
 [mariadb-10.1]
+innodb_file_format = Barracuda
+innodb_large_prefix = 1
+
+# This group is only read by MariaDB-10.1 servers.
+# If you use the same .cnf file for MariaDB of different versions,
+# use this group for options that older servers don't understand
+[mariadb-10.3]
