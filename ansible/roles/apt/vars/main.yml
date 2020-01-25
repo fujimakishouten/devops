@@ -12,6 +12,7 @@ packages:
   - direnv
   - dnsutils
   - emacs25-nox
+  - fzf
   - git
   - global
   - grc
