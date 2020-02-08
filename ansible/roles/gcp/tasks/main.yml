@@ -1,9 +1,8 @@
 - name: Install required packages
   apt:
-    pkg: "{{item}}"
+    name:
+      - apt-transport-https
     state: latest
-  with_items:
-    - apt-transport-https
 
 - name: Add google key
   apt_key:
@@ -25,8 +24,7 @@
 
 - name: Install google-cloud-sdk
   apt:
-    pkg: "{{item}}"
+    name:
+      - google-cloud-sdk
     state: latest
-  with_items:
-    - google-cloud-sdk 
 

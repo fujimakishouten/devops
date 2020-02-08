@@ -1,11 +1,19 @@
 - name: Install awscli 
-  apt: pkg={{item}} state=latest
+  apt:
+    name:
+      - awscli
+    state: latest
   with_items:
     - awscli
 
 - name: Ensure ec2-metadata directory
-  file: path=/opt/amazon/ec2-metadata state=directory
+  file:
+    path: /opt/amazon/ec2-metadata
+    state: directory
 
 - name: Get ec2-metadata command
-  get_url: url=http://s3.amazonaws.com/ec2metadata/ec2-metadata dest=/opt/amazon/ec2-metadata/ec2-metadata mode=755
+  get_url:
+    url: http://s3.amazonaws.com/ec2metadata/ec2-metadata
+    dest: /opt/amazon/ec2-metadata/ec2-metadata
+    mode: 755
 

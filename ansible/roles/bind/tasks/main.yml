@@ -1,7 +1,8 @@
 - name: Install BIND 
-  apt: pkg={{item}} state=latest
-  with_items:
-    - bind9
+  apt:
+    name:
+      - bind9
+    state: latest
 
 - name: Ensure zone files directory
   file:

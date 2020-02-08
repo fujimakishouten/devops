@@ -1,9 +1,8 @@
 - name: Install unbound
   apt:
-    pkg: "{{item}}"
+    name:
+      - unbound
     state: latest
-  with_items:
-    - unbound
 
 - name: Copy server.conf
   copy:

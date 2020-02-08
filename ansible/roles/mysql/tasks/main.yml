@@ -1,6 +1,8 @@
 - name: Install MySQL server
   apt:
-    pkg: ['default-mysql-server', 'python3-pymysql'] 
+    name:
+      - default-mysql-server
+      - python3-pymysql
     state: latest
   register: mysql
 
@@ -71,6 +73,7 @@
     password: "{{password.stdout}}"
     priv: "*.*:ALL,GRANT"
     state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
 
 - name: .my.cnf
   template:
@@ -78,3 +81,4 @@
     dest: ~/.my.cnf
     mode: 600
     backup: yes
+

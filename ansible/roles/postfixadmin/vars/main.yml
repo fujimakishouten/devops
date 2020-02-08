@@ -1,4 +1,4 @@
-version: 3.0.2
+version: 3.2
 url: http://jaist.dl.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-{{version}}/postfixadmin-{{version}}.tar.gz
 default_language: en
 database_type: mysqli

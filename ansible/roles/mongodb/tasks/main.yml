@@ -1,9 +1,13 @@
 - name: Install mongodb
-  apt: pkg={{item}} state=latest
-  with_items:
-    - mongodb
+  apt:
+    name:
+      - mongodb
+    state: latest
 
 - name: Copy mongodb.conf
-  copy: src=mongodb.conf dest=/etc/mongodb.conf backup=yes
+  copy:
+    src: mongodb.conf
+    dest: /etc/mongodb.conf
+    backup: yes
   notify: restart mongodb
 

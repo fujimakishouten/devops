@@ -1,6 +1,7 @@
 - name: Install packages
   apt:
-    name: "{{packages}}"
+    name:
+      - nftables
     state: latest
     update_cache: yes
 

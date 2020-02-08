@@ -1,23 +1,36 @@
 - name: Ensure database password file directory
-  file: path=/usr/share/mysql/password state=directory mode=750
+  file:
+    path: /usr/share/mysql/password
+    state: directory
+    mode: 750
 
 - name: Copy database password file
-  copy: src={{item}} dest=/usr/share/mysql/password/{{item}} mode=640
+  copy:
+    src: "{{item}}"
+    dest: /usr/share/mysql/password/{{item}}
+    mode: 640
   with_items:
     - roundcube
 
 - name: Ensure roundcube directory
-  file: path=/usr/share/roundcube state=directory
+  file:
+    path: /usr/share/roundcube
+    state: directory
 
-- name: Ensure postfixadmin config directory
-  file: path=/etc/roundcube state=directory
+- name: Ensure roundcube config directory
+  file:
+    path: /etc/roundcube
+    state: directory
 
 - name: Check install
-  stat: path=/usr/share/roundcube/roundcube/config/config.inc.php
+  stat:
+    path: /usr/share/roundcube/roundcube/config/config.inc.php
   register: config
 
 - name: Download roundcube
-  get_url: url={{url}} dest=/tmp
+  get_url:
+    url: "{{url}}"
+    dest: /tmp
   when: not config.stat.exists
 
 - name: Exact roundcube
@@ -28,16 +41,25 @@
   when: not config.stat.exists
 
 - name: Link roundcube
-  file: src=/usr/share/roundcube/roundcubemail-{{version}} dest=/usr/share/roundcube/roundcube state=link
+  file:
+    src: /usr/share/roundcube/roundcubemail-{{version}}
+    dest: /usr/share/roundcube/roundcube
+    state: link
 
 - name: Configure config directory
-  file: path=/usr/share/roundcube/roundcube/{{item}} group=www-data mode=775
+  file:
+    path: /usr/share/roundcube/roundcube/{{item}}
+    group: www-data
+    mode: 775
   with_items:
     - config
     - logs
 
 - name: Ensure document root
-  file: src=/usr/share/roundcube/roundcube/public_html dest=/var/www/html/roundcube state=link
+  file:
+    src: /usr/share/roundcube/roundcube/public_html
+    dest: /var/www/html/roundcube
+    state: link
 
 - name: Register database user name
   shell: cat /usr/share/mysql/password/roundcube | cut --delimiter=":" --fields=1
@@ -48,5 +70,8 @@
   register: password
 
 - name: Copy config.inc.php
-  template: src=config.inc.php.j2 dest=/etc/roundcube/config.inc.php backup=yes
+  template:
+    src: config.inc.php.j2
+    dest: /etc/roundcube/config.inc.php
+    backup: yes
 
