@@ -1,7 +1,7 @@
 - name: Install Let's encrypt
-  apt: pkg={{item}} state=latest
-  with_items:
-    - letsencrypt
+  apt:
+    pkg: ['letsencrypt']
+    state: latest
 
 - name: Ensure config direcotry
   file: path=/etc/letsencrypt state=directory
