@@ -1,38 +1,70 @@
 - name: Add jenkins user
-  user: name=jenkins groups=shadow shell=/bin/bash state=present system=yes
+  user:
+    name: jenkins
+    groups: shadow
+    shell: /bin/zsh
+    state: present
+    system: yes
 
 - name: Ensure home directory
-  file: path=/home/jenkins owner=jenkins group=jenkins state=directory
+  file:
+    path: /home/jenkins
+    owner: jenkins
+    group: jenkins
+    state: directory
 
 - name: Ensure .ssh directory
-  file: path=/home/jenkins/.ssh owner=jenkins group=jenkins state=directory
+  file:
+    path: /home/jenkins/.ssh
+    owner: jenkins
+    group: jenkins
+    state: directory
 
 - name: Copy id_rsa file
-  copy: src=id_rsa dest=/home/jenkins/.ssh/id_rsa owner=jenkins group=jenkins mode=600
+  copy:
+    src: id_rsa
+    dest: /home/jenkins/.ssh/id_rsa
+    owner: jenkins
+    group: jenkins
+    mode: 600
 
 - name: Add jenkins apt key
-  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+  apt_key:
+    url: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+    state: present
 
 - name: Add jenkins repository
-  apt_repository: repo="deb http://pkg.jenkins-ci.org/debian binary/" state=present update_cache=yes
+  apt_repository:
+    repo: "deb http://pkg.jenkins-ci.org/debian binary/"
+    state: present
+    update_cache: yes
 
 - name: Install jenkins, fabric and nginx
-  apt: pkg={{item}} state=latest
-  with_items:
-    - fabric
-    - jenkins
+  apt:
+    pkg:
+      - fabric
+      - jenkins
+      - nginx
+    state: latest
   notify: restart jenkins
 
 - name: Disable default site settings
-  file: path=/etc/nginx/sites-enabled/default state=absent
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
   notify: restart nginx
 
 - name: Copy default site settings
-  template: src=jenkins.j2 dest=/etc/nginx/sites-available/jenkins backup=yes
+  template:
+    src: jenkins.j2
+    dest: /etc/nginx/sites-available/jenkins
+    backup: yes
   notify: restart nginx
 
 - name: Enalbe jenkins site settings
-  file: src=/etc/nginx/sites-available/jenkins dest=/etc/nginx/sites-enabled/jenkins state=link
+  file:
+    src: /etc/nginx/sites-available/jenkins
+    dest: /etc/nginx/sites-enabled/jenkins
+    state: link
   notify: restart nginx
-
 

@@ -1,32 +1,49 @@
 - name: Install NSD
-  apt: pkg={{item}} state=latest
-  with_items:
-    - nsd
+  apt:
+    name:
+      - nsd
+    state: latest
 
 - name: Ensure zone files directory
-  file: path=/etc/nsd/zone state=directory
+  file:
+    path: /etc/nsd/zone
+    state: directory
 
 - name: Ensure sample files directory
-  file: path=/etc/nsd/samples state=directory
+  file:
+    path: /etc/nsd/samples
+    state: directory
 
 - name: Copy nsd.conf
-  copy: src=nsd.conf dest=/etc/nsd/nsd.conf backup=yes
+  copy:
+    src: nsd.conf
+    dest: /etc/nsd/nsd.conf
+    backup: yes
   notify: restart nsd
 
 - name: Copy config file
-  copy: src={{item}} dest=/etc/nsd/nsd.conf.d/{{item}} backup=yes
+  copy:
+    src: "{{item}}"
+    dest: /etc/nsd/nsd.conf.d/{{item}}
+    backup: yes
   with_items:
     - server.conf
   notify: restart nsd
 
 - name: Copy zone config file
-  template: src={{item}}.j2 dest=/etc/nsd/nsd.conf.d/{{item}} backup=yes
+  template:
+    src: "{{item}}.j2"
+    dest: /etc/nsd/nsd.conf.d/{{item}}
+    backup: yes
   with_items:
     - zone.conf
   notify: restart nsd
 
 - name: Copy sample zone file
-  copy: src={{item}} dest=/etc/nsd/samples/{{item}} backup=yes
+  copy:
+    src: "{{item}}"
+    dest: /etc/nsd/samples/{{item}}
+    backup: yes
   with_items:
     - zonefile
     - zonefile.rev

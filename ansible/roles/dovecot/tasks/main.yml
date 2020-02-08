@@ -1,13 +1,20 @@
 - name: Install postfix
-  apt: pkg={{item}} state=latest
-  with_items:
-    - dovecot-mysql
+  apt:
+    name:
+      - dovecot-mysql
+    state: latest
 
 - name: Ensure database password file directory
-  file: path=/usr/share/mysql/password state=directory mode=750
+  file:
+    path: /usr/share/mysql/password
+    state: directory
+    mode: 750
 
 - name: Copy database password file
-  copy: src={{item}} dest=/usr/share/mysql/password/{{item}} mode=640
+  copy:
+    src: "{{item}}"
+    dest: /usr/share/mysql/password/{{item}}
+    mode: 640
   with_items:
     - dovecot
 
@@ -25,6 +32,7 @@
     password: "{{password.stdout}}"
     priv: "{{dbname}}.*:ALL,GRANT"
     state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
 
 - name: Ensure database
   mysql_db:
@@ -40,20 +48,30 @@
   register: gid
 
 - name: Copy config files
-  copy: src={{item}} dest=/etc/dovecot/conf.d/{{item}} backup=yes
+  copy:
+    src: "{{item}}"
+    dest: /etc/dovecot/conf.d/{{item}}
+    backup: yes
   with_items:
     - 10-auth.conf
     - 10-master.conf
   notify: restart dovecot
 
 - name: Copy config files
-  template: src={{item}}.j2 dest=/etc/dovecot/conf.d/{{item}} backup=yes
+  template:
+    src: "{{item}}.j2"
+    dest: /etc/dovecot/conf.d/{{item}}
+    backup: yes
   with_items:
     - 10-mail.conf
     - 10-ssl.conf
   notify: restart dovecot
 
 - name: Copy dovecot-sql.conf.ext
-  template: src=dovecot-sql.conf.ext.j2 dest=/etc/dovecot/dovecot-sql.conf.ext mode=600 backup=yes
+  template:
+    src: dovecot-sql.conf.ext.j2
+    dest: /etc/dovecot/dovecot-sql.conf.ext
+    mode: 600
+    backup: yes
   notify: restart dovecot
 

@@ -1,47 +1,76 @@
 - name: Ensure database password file directory
-  file: path=/usr/share/mysql/password state=directory mode=750
+  file:
+    path: /usr/share/mysql/password
+    state: directory
+    mode: 750
 
 - name: Copy database password file
-  copy: src={{item}} dest=/usr/share/mysql/password/{{item}} mode=640
+  copy:
+    src: "{{item}}"
+    dest: /usr/share/mysql/password/{{item}}
+    mode: 640
   with_items:
     - postfixadmin
 
 - name: Ensure postifxadmin directory
-  file: path=/usr/share/postfixadmin state=directory
+  file:
+    path: /usr/share/postfixadmin
+    state: directory
 
 - name: Ensure postfixadmin config directory
-  file: path=/etc/postfixadmin state=directory
+  file:
+    path: /etc/postfixadmin
+    state: directory
 
 - name: Check install
-  stat: path=/usr/share/postfixadmin/postfixadmin/config.inc.php
+  stat:
+    path: /usr/share/postfixadmin/postfixadmin/config.inc.php
   register: config
 
 - name: Download postfixadmin
-  get_url: url={{url}} dest=/tmp
+  get_url:
+    url: "{{url}}"
+    dest: /tmp
   when: not config.stat.exists
 
 - name: Exact postfixadmin
-  command: |
-    tar zxf postfixadmin-{{version}}.tar.gz -C /usr/share/postfixadmin
-  args:
-    chdir: /tmp
+  unarchive:
+    src: /tmp/postfixadmin-{{version}}.tar.gz
+    dest: /usr/share/postfixadmin
   when: not config.stat.exists
 
 - name: Link postfixadmin
-  file: src=/usr/share/postfixadmin/postfixadmin-{{version}} dest=/usr/share/postfixadmin/postfixadmin state=link
+  file:
+    src: /usr/share/postfixadmin/postfixadmin-{{version}}
+    dest: /usr/share/postfixadmin/postfixadmin
+    state: link
+
+- name: Ensure configuration cache directory
+  file:
+    path: /usr/share/postfixadmin/postfixadmin/templates_c
+    state: directory
 
 - name: Configure cache directory
-  file: path=/usr/share/postfixadmin/postfixadmin/templates_c group=www-data mode=775
+  file:
+    path: /usr/share/postfixadmin/postfixadmin/templates_c
+    group: www-data
+    mode: 775
 
 - name: Move original config.inc.php
   command: mv /usr/share/postfixadmin/postfixadmin/config.inc.php /etc/postfixadmin/config.inc.php
   when: not config.stat.exists or not config.stat.islnk
 
 - name: Link config.inc.php
-  file: src=/etc/postfixadmin/config.inc.php dest=/usr/share/postfixadmin/postfixadmin/config.inc.php state=link
+  file:
+    src: /etc/postfixadmin/config.inc.php
+    dest: /usr/share/postfixadmin/postfixadmin/config.inc.php
+    state: link
 
 - name: Ensure document root
-  file: src=/usr/share/postfixadmin/postfixadmin dest=/var/www/html/postfixadmin state=link
+  file:
+    src: /usr/share/postfixadmin/postfixadmin
+    dest: /var/www/html/postfixadmin
+    state: link
 
 - name: Register database user name
   shell: cat /usr/share/mysql/password/postfix | cut --delimiter=":" --fields=1
@@ -52,5 +81,8 @@
   register: password
 
 - name: Copy config.inc.php
-  template: src=config.inc.php.j2 dest=/etc/postfixadmin/config.inc.php backup=yes
+  template:
+    src: config.inc.php.j2
+    dest: /etc/postfixadmin/config.inc.php
+    backup: yes
 

@@ -1,13 +1,16 @@
 - name: Install opendmarc
-  apt: pkg={{item}} state=latest
-  with_items:
-    - opendmarc
+  apt:
+    name: opendmarc
+    state: latest
 
 - name: Ensure config directory
-  file: path=/etc/opendmarc state=directory
+  file:
+    path: /etc/opendmarc
+    state: directory
 
 - name: Get original opendmarc.conf status
-  stat: path=/etc/opendkim.conf
+  stat:
+    path: /etc/opendkim.conf
   register: opendmarc
 
 - name: Move opendmarc.conf to opendmarc directory
@@ -15,10 +18,16 @@
   when: not opendkim.stat.islnk
 
 - name: Copy opendmarc.conf
-  copy: src=opendmarc.conf dest=/etc/opendmarc/opendmarc.conf backup=yes
+  copy:
+    src: opendmarc.conf
+    dest: /etc/opendmarc/opendmarc.conf
+    backup: yes
   notify: restart opendmarc
 
 - name: Link opendmarc.conf
-  file: src=/etc/opendmarc/opendmarc.conf dest=/etc/opendmarc.conf state=link
+  file:
+    src: /etc/opendmarc/opendmarc.conf
+    dest: /etc/opendmarc.conf
+    state: link
   when: not opendkim.stat.islnk
 

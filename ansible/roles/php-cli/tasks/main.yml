@@ -1,11 +1,15 @@
 - name: Install PHP
-  apt: pkg={{item}} state=latest
-  with_items:
-    - composer
-    - php-cli
-    - php-intl
-    - php-mbstring
+  apt:
+    name:
+      - composer
+      - php-cli
+      - php-intl
+      - php-mbstring
+    state: latest
 
 - name: Copy php.ini
-  copy: src=php.ini dest=/etc/php/7.2/fpm/php.ini backup=yes
+  copy:
+    src: php.ini
+    dest: /etc/php/7.3/cli/php.ini
+    backup: yes
 

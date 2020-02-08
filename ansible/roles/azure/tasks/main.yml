@@ -1,9 +1,8 @@
 - name: Install required packages
   apt:
-    pkg: "{{item}}"
+    name:
+      - apt-transport-https
     state: latest
-  with_items:
-    - apt-transport-https
 
 - name: Add microsoft key
   apt_key:
@@ -24,8 +23,7 @@
 
 - name: Install azure-cli
   apt:
-    pkg: "{{item}}"
+    name:
+      - azure-cli
     state: latest
-  with_items:
-    - azure-cli
 

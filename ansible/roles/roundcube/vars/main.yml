@@ -1,4 +1,4 @@
-version: 1.2.5
+version: 1.4.2
 url: https://github.com/roundcube/roundcubemail/releases/download/{{version}}/roundcubemail-{{version}}-complete.tar.gz
 default_host: ssl://localhost
 default_port: 993

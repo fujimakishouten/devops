@@ -1,9 +1,12 @@
 - name: Install Squid
-  apt: pkg={{item}} state=latest
-  with_items:
-    - squid
+  apt:
+    name: squid
+    state: latest
 
 - name: Copy squid.conf
-  copy: src=squid.conf dest=/etc/squid/squid.conf backup=yes
+  copy:
+    src: squid.conf
+    dest: /etc/squid/squid.conf
+    backup: yes
   notify: restart squid
 

@@ -1,16 +1,31 @@
 - name: Create user group
-  group: name={{item}} state=present
+  group:
+    name:
+      - fujimakishouten
+    state: present
   with_items:
-    - fujimakishouten
 
 - name: Create share directory
-  file: path=/usr/share/fujimakishouten mode=775 group=fujimakishouten state=directory
+  file:
+    path: /usr/share/fujimakishouten
+    mode: 775
+    group: fujimakishouten
+    state: directory
 
 - name: Create user password directory
-  file: path=/usr/share/fujimakishouten/users mode=770 group=fujimakishouten state=directory
+  file:
+    path: /usr/share/fujimakishouten/users
+    mode: 770
+    group: fujimakishouten
+    state: directory
 
 - name: Copy password files
-  copy: src=fujimakishouten dest=/usr/share/fujimakishouten/users/fujimakishouten mode=640 group=fujimakishouten backup=yes
+  copy:
+    src: fujimakishouten
+    dest: /usr/share/fujimakishouten/users/fujimakishouten
+    mode: 640
+    group: fujimakishouten
+    backup: yes
 
 - name: Register username
   shell: cat /usr/share/fujimakishouten/users/fujimakishouten | cut --delimiter=":" --fields=1
@@ -25,17 +40,39 @@
   register: hash
 
 - name: Register user
-  user: name={{user.stdout}} group=fujimakishouten groups="adm" password={{hash.stdout}} shell=/bin/bash append=yes
+  user:
+    name: "{{user.stdout}}"
+    group: fujimakishouten
+    groups: "adm"
+    password: "{{hash.stdout}}"
+    shell: /bin/zsh
+    append: yes
 
 - name: Add to sudoers
   shell: /bin/bash -c "echo 'fujimakishouten  ALL=(ALL:ALL) ALL'" > /etc/sudoers.d/fujimakishouten
 
 - name: Create home directory
-  file: path=/home/fujimakishouten mode=755 owner=fujimakishouten group=fujimakishouten state=directory
+  file:
+    path: /home/fujimakishouten
+    mode: 755
+    owner: fujimakishouten
+    group: fujimakishouten
+    state: directory
 
 - name: Create SSH directory
-  file: path=/home/fujimakishouten/.ssh mode=755 owner=fujimakishouten group=fujimakishouten state=directory
+  file:
+    path: /home/fujimakishouten/.ssh
+    mode: 755
+    owner: fujimakishouten
+    group: fujimakishouten
+    state: directory
 
 - name: Copy SSH public key
-  copy: src=authorized_keys dest=/home/fujimakishouten/.ssh/authorized_keys mode=644 owner=fujimakishouten group=fujimakishouten backup=yes
+  copy:
+    src: authorized_keys
+    dest: /home/fujimakishouten/.ssh/authorized_keys
+    mode: 644
+    owner: fujimakishouten
+    group: fujimakishouten
+    backup: yes
 

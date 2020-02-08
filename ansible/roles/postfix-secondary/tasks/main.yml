@@ -1,5 +1,8 @@
 - name: Install postfix
-  apt: pkg={{item}} state=latest
+  apt:
+    name:
+      - postfix
+    state: latest
   with_items:
     - postfix
 
@@ -12,15 +15,24 @@
   register: gid
 
 - name: Copy master.cf
-  copy: src=master.cf dest=/etc/postfix/master.cf backup=yes
+  copy:
+    src: master.cf
+    dest: /etc/postfix/master.cf
+    backup: yes
   notify: restart postfix
 
 - name: Copy main.cf
-  template: src=main.cf.j2 dest=/etc/postfix/main.cf backup=yes
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    backup: yes
   notify: restart postfix
 
 - name: Copy transport.cf
-  template: src=transport.cf.j2 dest=/etc/postfix/transport.cf backup=yes
+  template:
+    src: transport.cf.j2
+    dest: /etc/postfix/transport.cf
+    backup: yes
   notify: 
     - update transport db
     - restart postfix

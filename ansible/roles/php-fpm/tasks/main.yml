@@ -1,13 +1,17 @@
 - name: Install PHP
-  apt: pkg={{item}} state=latest
-  with_items:
-    - composer
-    - php-fpm
-    - php-imap
-    - php-intl
-    - php-mbstring
-    - php-mysql
+  apt:
+    pkg:
+      - composer
+      - php-fpm
+      - php-imap
+      - php-intl
+      - php-mbstring
+      - php-mysql
+    state: latest
 
 - name: Copy php.ini
-  copy: src=php.ini dest=/etc/php/7.2/fpm/php.ini backup=yes
+  copy:
+    src: php.ini
+    dest: /etc/php/7.3/fpm/php.ini
+    backup: yes
 

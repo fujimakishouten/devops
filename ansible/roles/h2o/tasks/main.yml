@@ -1,7 +1,8 @@
 - name: Install h2o
-  apt: pkg={{item}} state=latest
-  with_items:
-    - h2o
+  apt:
+    name:
+      - h2o
+    state: latest
 
 - name: Ensure dhparams directory
   file:
