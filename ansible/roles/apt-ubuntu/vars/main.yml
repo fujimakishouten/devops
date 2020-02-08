@@ -11,8 +11,7 @@ packages:
   - curl
   - direnv
   - dnsutils
-  - emacs-nox
-  - fzf
+  - emacs25-nox
   - git
   - global
   - grc
@@ -24,7 +23,6 @@ packages:
   - lhasa
   - lzip
   - mosh
-  - neovim
   - nkf
   - peco
   - pbzip2
@@ -44,6 +42,7 @@ packages:
   - tree
   - unar
   - unrar
+  - vim-nox
   - vrms
   - whois
   - zsh

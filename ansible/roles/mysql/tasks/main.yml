@@ -1,10 +1,7 @@
 - name: Install MySQL server
   apt:
-    pkg: "{{item}}"
+    pkg: ['default-mysql-server', 'python3-pymysql'] 
     state: latest
-  with_items:
-    - default-mysql-server
-    - python-mysqldb
   register: mysql
 
 - name: Restart MySQL
