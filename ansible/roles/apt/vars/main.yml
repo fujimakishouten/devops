@@ -11,7 +11,7 @@ packages:
   - curl
   - direnv
   - dnsutils
-  - emacs25-nox
+  - emacs-nox
   - fzf
   - git
   - global
