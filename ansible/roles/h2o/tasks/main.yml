@@ -15,6 +15,20 @@
     dest: /etc/h2o/dhparams/default.pem
   notify: restart h2o
 
+- name: Ensure document root directory
+  file:
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - /var/www
+    - /usr/share/www/web
+
+- name: Create symbolic link to document root
+  file:
+    src: /usr/share/www/web
+    dest: /var/www/web
+    state: link
+
 - name: Copy h2o.conf file
   template:
     src: h2o.conf.j2

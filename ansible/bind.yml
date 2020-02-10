@@ -1,7 +1,8 @@
-- hosts: mongodb
+- hosts: all
   become: yes
   roles:
     - common
     - apt
-    - mongodb
+    - nftables
+    - bind 
 

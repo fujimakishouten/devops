@@ -33,10 +33,9 @@
     dest: /tmp
   when: not config.stat.exists
 
-- name: Exact postfixadmin
-  unarchive:
-    src: /tmp/postfixadmin-{{version}}.tar.gz
-    dest: /usr/share/postfixadmin
+- name: Exact roundcube
+  command: |
+    tar zxf /tmp/postfixadmin-{{version}}.tar.gz -C /usr/share/postfixadmin
   when: not config.stat.exists
 
 - name: Link postfixadmin
@@ -69,7 +68,7 @@
 - name: Ensure document root
   file:
     src: /usr/share/postfixadmin/postfixadmin
-    dest: /var/www/html/postfixadmin
+    dest: /var/www/web/postfixadmin
     state: link
 
 - name: Register database user name

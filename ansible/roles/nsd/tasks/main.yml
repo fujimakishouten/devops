@@ -21,9 +21,9 @@
     backup: yes
   notify: restart nsd
 
-- name: Copy config file
-  copy:
-    src: "{{item}}"
+- name: Copy config template 
+  template:
+    src: "{{item}}.j2"
     dest: /etc/nsd/nsd.conf.d/{{item}}
     backup: yes
   with_items:

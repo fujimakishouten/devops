@@ -1,7 +1,0 @@
-- hosts: squid
-  become: yes
-  roles:
-    - common
-    - apt
-    - squid
-

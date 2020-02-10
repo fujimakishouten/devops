@@ -1,9 +1,7 @@
 - name: Create user group
   group:
-    name:
-      - fujimakishouten
+    name: fujimakishouten 
     state: present
-  with_items:
 
 - name: Create share directory
   file:

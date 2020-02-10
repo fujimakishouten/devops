@@ -1,5 +1,4 @@
 dependencies:
   - {role: h2o}
-  - {role: h2o-virtualhosts}
   - {role: postfix}
 

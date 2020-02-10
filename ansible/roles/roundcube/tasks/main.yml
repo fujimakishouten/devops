@@ -35,9 +35,7 @@
 
 - name: Exact roundcube
   command: |
-    tar zxf roundcubemail-{{version}}-complete.tar.gz -C /usr/share/roundcube
-  args:
-    chdir: /tmp
+    tar zxf /tmp/roundcubemail-{{version}}-complete.tar.gz -C /usr/share/roundcube
   when: not config.stat.exists
 
 - name: Link roundcube
@@ -58,7 +56,7 @@
 - name: Ensure document root
   file:
     src: /usr/share/roundcube/roundcube/public_html
-    dest: /var/www/html/roundcube
+    dest: /var/www/web/roundcube
     state: link
 
 - name: Register database user name

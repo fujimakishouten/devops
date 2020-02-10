@@ -10,10 +10,6 @@
     - opendkim
     - opendmarc
     - spamassassin
-    - postfix
+    - postfix-secondary
     - dovecot
-    - php-fpm
-    - h2o
-    - postfixadmin
-    - roundcube
 

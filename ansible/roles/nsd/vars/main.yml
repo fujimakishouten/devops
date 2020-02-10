@@ -1,4 +1,5 @@
 primary: 127.0.0.1
+port: 10053
 secondary:
   - 127.0.0.1
 domains:
