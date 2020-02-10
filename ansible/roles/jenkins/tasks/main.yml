@@ -39,32 +39,19 @@
     state: present
     update_cache: yes
 
-- name: Install jenkins, fabric and nginx
+- name: Install fabric, jenkins and openjdk
   apt:
     pkg:
       - fabric
       - jenkins
-      - nginx
+      - openjdk-11-jre-headless
     state: latest
   notify: restart jenkins
 
-- name: Disable default site settings
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
-  notify: restart nginx
-
-- name: Copy default site settings
+- name: Copy jenkins site settings
   template:
-    src: jenkins.j2
-    dest: /etc/nginx/sites-available/jenkins
+    src: h2o.conf.j2
+    dest: /etc/h2o/h2o.conf
     backup: yes
-  notify: restart nginx
-
-- name: Enalbe jenkins site settings
-  file:
-    src: /etc/nginx/sites-available/jenkins
-    dest: /etc/nginx/sites-enabled/jenkins
-    state: link
-  notify: restart nginx
+  notify: restart h2o
 

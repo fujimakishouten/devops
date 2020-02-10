@@ -16,13 +16,6 @@ header.set: "X-Frame-Options: SAMEORIGIN"
 ## Reproxy
 reproxy: ON
 
-## FastCGI
-file.custom-handler:
-    extension: .php
-    fastcgi.connect:
-        port: /var/run/php/php7.3-fpm.sock
-        type: unix
-
 ## Indexes
 file.index: ['index.html', 'index.xhtml', 'index.htm', 'index.php']
 
@@ -32,8 +25,8 @@ listen:
 #listen:
 #    port: 443
 #    ssl:
-#        key-file: /etc/letsencrypt/live/{{domain_name}}/privkey.pem
-#        certificate-file: /etc/letsencrypt/live/{{domain_name}}/fullchain.pem
+#        key-file: /etc/letsencrypt/live/{{server_name}}/privkey.pem
+#        certificate-file: /etc/letsencrypt/live/{{server_name}}/fullchain.pem
 #        dh-file: /etc/h2o/dhparams/default.pem
 #        minimum-version: TLSv1
 #        cipher-suite: "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256"
@@ -53,7 +46,7 @@ hosts:
 #                            [399, {}, []]
 #                        end
 #                    end
-                file.dir: /var/www/web
+                proxy.reverse.url: "http://127.0.0.1:8080/"
             /server-status:
                 status: ON
 
