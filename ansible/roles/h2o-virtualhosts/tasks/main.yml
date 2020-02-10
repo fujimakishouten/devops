@@ -19,6 +19,20 @@
   with_items: "{{domains}}"
   notify: restart h2o
 
+- name: Ensure document root directory
+  file:
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - /var/www
+    - /usr/share/www/virtual
+
+- name: Create symbolic link to document directory
+  file:
+    src: /usr/share/www/virtual
+    dest: /var/www/virtual
+    state: link
+
 - name: Add host settings to h2o.conf
   blockinfile:
     path: /etc/h2o/h2o.conf
@@ -28,5 +42,4 @@
     marker: "### Virtualhost: {{item}}"
   with_items: "{{domains}}"
   notify: restart h2o
-
 

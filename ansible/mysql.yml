@@ -1,6 +1,0 @@
-- hosts: mysql
-  become: yes
-  roles:
-    - common
-    - apt
-    - mysql

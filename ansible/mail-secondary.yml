@@ -1,7 +1,0 @@
-- hosts: mail-secondary
-  become: yes
-  roles:
-    - common
-    - apt
-    - postfix-secondary
-

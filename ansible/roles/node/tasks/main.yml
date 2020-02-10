@@ -1,4 +1,4 @@
-- name: Install Git
+g name: Install Git
   apt:
     name: git
     state: latest
@@ -19,8 +19,13 @@
     group: staff
     recurse: yes
 
-- name: Install global node modules
-  shell: npm install --global istanbul mocha pm2
+- name: Install global node commands 
+  shell: |
+    npm install --global @angular/cli @babel/cli @google-cloud/functions-emulator aws-sam-local azure-functions-core-tools@core bower browserify eslint gulp istanbul mocha parcel-bundler rollup stylelint stylus textlint tslint typescript types verdaccio webpack-cli yarn
+
+- name: Install global node modules 
+  shell: |
+    npm install --global @babel/core @babel/preset-env @babel/plugin-transform-runtime @types/node @types/twilio aws-sdk awesome-typescript-loader babel-loader json-loader source-map-loader stylelint-config-recommended textlint-rule-preset-japanese textlint-rule-preset-jtf-style textlint-rule-prh textlint-rule-spellcheck-tech-word tslint-eslint-rules twilio webpack
 
 - name: Create root directory
   file:

@@ -1,7 +1,9 @@
-- hosts: dns
+- hosts: all
   become: yes
   roles:
     - common
     - apt
+    - nftables
     - nsd
+    - unbound
 

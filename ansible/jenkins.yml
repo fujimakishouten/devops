@@ -1,9 +1,0 @@
-- hosts: jenkins
-  become: yes
-  roles:
-    - common
-    - apt
-    - letsencrypt
-    - nginx
-    - jenkins
-
