@@ -3,6 +3,7 @@ packages:
   - aptitude
   - awscli
   - axel
+  - bat
   - brotli
   - clamav
   - colordiff
@@ -12,6 +13,8 @@ packages:
   - direnv
   - dnsutils
   - emacs-nox
+  - exa
+  - fd-find
   - fzf
   - git
   - global
@@ -30,6 +33,7 @@ packages:
   - pbzip2
   - pwgen
   - rar
+  - ripgrep
   - rkhunter
   - rlwrap
   - screen
