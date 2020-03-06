@@ -31,6 +31,7 @@ packages:
   - nkf
   - peco
   - pbzip2
+  - prettyping
   - pwgen
   - rar
   - ripgrep
@@ -51,5 +52,6 @@ packages:
   - vrms
   - whois
   - zsh
+  - zsh-syntax-highlighting
   - zstd
 
