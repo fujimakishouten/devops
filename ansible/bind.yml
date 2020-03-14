@@ -4,5 +4,6 @@
     - common
     - apt
     - nftables
-    - bind 
+    - bind
+    - ssh
 

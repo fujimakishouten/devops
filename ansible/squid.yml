@@ -4,4 +4,6 @@
     - common
     - apt
     - nftables
+    - squid
+    - ssh
 
