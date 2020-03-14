@@ -1,0 +1,6 @@
+packages:
+  - m4
+  - ocaml
+  - opam
+  - utop
+
