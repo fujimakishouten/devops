@@ -1,4 +1,4 @@
-- hosts: all 
+- hosts: all
   become: yes
   roles:
     - common
@@ -16,4 +16,5 @@
     - h2o
     - postfixadmin
     - roundcube
+    - ssh
 

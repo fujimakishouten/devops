@@ -6,4 +6,5 @@
     - nftables
     - nsd
     - unbound
+    - ssh
 
