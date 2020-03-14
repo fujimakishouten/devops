@@ -29,6 +29,7 @@ packages:
   - mosh
   - neovim
   - nkf
+  - parallel
   - peco
   - pbzip2
   - prettyping
