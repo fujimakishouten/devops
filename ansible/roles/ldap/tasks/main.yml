@@ -1,0 +1,110 @@
+- name: Install LDAP server and client
+  apt:
+    name:
+      - ldap-utils
+      - libpam-ldapd
+      - python3-ldap
+      - slapd
+      - sudo-ldap
+    state: latest
+    update_cache: yes
+
+- name: Change base DN
+  ldap_attr:
+    dn: olcDatabase={1}mdb,cn=config
+    name: olcSuffix
+    values: "{{ldap_dn}}"
+    state: exact
+
+- name: Change root DN
+  ldap_attr:
+    dn: olcDatabase={1}mdb,cn=config
+    name: olcRootDN
+    values: "{{ldap_admin_dn}}"
+    state: exact
+
+- name: Generate root password
+  shell: |
+    slappasswd -h '{SSHA}' -s {{ldap_password}}
+  register: olcrootpw
+
+- name: Change root PW
+  ldap_attr:
+    dn: olcDatabase={1}mdb,cn=config
+    name: olcRootPW
+    values: "{{olcrootpw.stdout}}"
+    state: exact
+
+- name: Setup access control
+  ldap_attr:
+    dn: olcDatabase={1}mdb,cn=config
+    name: olcAccess
+    values:
+      - >-
+        {0}to attrs=userPassword,shadowLastChange
+        by self write
+        by dn="{{ldap_admin_dn}}" write
+        by anonymous auth
+        by * none
+      - >-
+        {1}to *
+        by self read
+        by dn="{{ldap_admin_dn}}" write
+        by * read
+    state: exact
+
+- name: Add organization entry
+  ldap_entry:
+    dn: "{{ldap_dn}}"
+    objectClass:
+      - top
+      - dcObject
+      - organization
+    attributes:
+      dc: "{{ldap_domain.split('.')|first}}"
+      o: "{{ldap_organization}}"
+    bind_dn: "{{ldap_admin_dn}}"
+    bind_pw: "{{ldap_password}}"
+
+- name: Add people entry
+  ldap_entry:
+    dn: ou=People,{{ldap_dn}}
+    objectClass:
+      - organizationalUnit
+    attributes:
+      ou: People
+    bind_dn: "{{ldap_admin_dn}}"
+    bind_pw: "{{ldap_password}}"
+
+- name: Add group entry
+  ldap_entry:
+    dn: ou=Group,{{ldap_dn}}
+    objectClass:
+      - organizationalUnit
+    attributes:
+      ou: Group
+    bind_dn: "{{ldap_admin_dn}}"
+    bind_pw: "{{ldap_password}}"
+
+- name: Setup ldap.conf
+  template:
+    src: ldap.conf.j2
+    dest: /etc/ldap/ldap.conf
+    backup: yes
+
+- name: Setup nslcd.conf
+  template:
+    src: nslcd.conf.j2
+    dest: /etc/nslcd.conf
+    backup: yes
+  notify:
+    - restart nslcd
+
+- name: Setup nsswitch.conf
+  copy:
+    src: nsswitch.conf
+    dest: /etc/nsswitch.conf
+    backup: yes
+  notify:
+    - restart nscd
+
