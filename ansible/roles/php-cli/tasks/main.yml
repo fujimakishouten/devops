@@ -10,6 +10,6 @@
 - name: Copy php.ini
   copy:
     src: php.ini
-    dest: /etc/php/7.3/cli/php.ini
+    dest: /etc/php/{{PHP_VERSION}}/cli/php.ini
     backup: yes
 
