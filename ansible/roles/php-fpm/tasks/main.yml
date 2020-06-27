@@ -12,6 +12,6 @@
 - name: Copy php.ini
   copy:
     src: php.ini
-    dest: /etc/php/7.3/fpm/php.ini
+    dest: /etc/php/{{PHP_VERSION}}/fpm/php.ini
     backup: yes
 
