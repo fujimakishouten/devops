@@ -1,0 +1,7 @@
+- name: Install LAM (LDAP account manager)
+  apt:
+    name:
+     - ldap-account-manager
+    state: latest
+    update_cache: yes
+
