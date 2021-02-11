@@ -1,0 +1,11 @@
+- hosts: email-secondary
+  become: yes
+  roles:
+    - ../roles/letsencrypt
+    - ../roles/mysql
+    - ../roles/clamsmtp
+    - ../roles/opendkim
+    - ../roles/opendmarc
+    - ../roles/spamassassin
+    - ../roles/postfix-secondary
+    - ../roles/dovecot

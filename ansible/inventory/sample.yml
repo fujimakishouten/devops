@@ -1,0 +1,25 @@
+all:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  children:
+    development:
+      hosts:
+        localhost:
+    dns:
+      children:
+        bind:
+          hosts:
+            localhost:
+        nsd:
+          localhost:
+    email:
+      children:
+        email-primary:
+          hosts:
+            localhost:
+        email-secondary:
+          hosts:
+            localhost:
+    web:
+      hosts:
+        localhost:
