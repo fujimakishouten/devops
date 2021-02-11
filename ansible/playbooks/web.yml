@@ -1,0 +1,8 @@
+- hosts: web
+  become: yes
+  become_user: yes
+  roles:
+    - ../roles/mysql
+    - ../roles/php-fpm
+    - ../roles/h2o
+    - ../roles/h2o-virtualhosts

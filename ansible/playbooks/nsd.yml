@@ -1,0 +1,6 @@
+- hosts: nsd
+  become: yes
+  become_user: root
+  roles:
+    - nsd
+    - unbound

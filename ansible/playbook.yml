@@ -1,0 +1,6 @@
+- import_playbook: ./playbooks/common.yml
+- import_playbook: ./playbooks/bind.yml
+- import_playbook: ./playbooks/development.yml
+- import_playbook: ./playbooks/email-primary.yml
+- import_playbook: ./playbooks/web.yml
+- import_playbook: ./playbooks/ssh.yml
