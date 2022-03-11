@@ -1,10 +1,14 @@
 packages:
+  - ansible
   - apache2-utils
   - aptitude
   - awscli
   - axel
   - bat
   - brotli
+  - brz
+  - checkinstall
+  - chkrootkit
   - clamav
   - colordiff
   - convmv
@@ -17,6 +21,7 @@ packages:
   - fd-find
   - fzf
   - git
+  - git-secret
   - global
   - grc
   - htop
@@ -30,8 +35,8 @@ packages:
   - neovim
   - nkf
   - parallel
-  - peco
   - pbzip2
+  - peco
   - prettyping
   - pwgen
   - rar
@@ -40,8 +45,10 @@ packages:
   - rlwrap
   - screen
   - sl
+  - sqlite3
   - sshfs
   - strace
+  - subversion
   - sudo
   - sysstat
   - tcpdump
@@ -51,8 +58,9 @@ packages:
   - unar
   - unrar
   - vrms
+  - w3m
   - whois
   - zsh
+  - zsh-autosuggestions
   - zsh-syntax-highlighting
   - zstd
-
