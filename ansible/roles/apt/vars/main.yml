@@ -24,6 +24,7 @@ packages:
   - git-secret
   - global
   - grc
+  - hexyl
   - htop
   - iotop
   - ipcalc
