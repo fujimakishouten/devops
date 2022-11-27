@@ -1,2 +1,1 @@
-deb [arch=amd64] http://packages.cloud.google.com/apt cloud-sdk-buster main
-
+deb [signed-by=/usr/share/keyrings/google.gpg arch=amd64] http://packages.cloud.google.com/apt cloud-sdk-bullseye main

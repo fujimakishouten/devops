@@ -1,17 +1,18 @@
 - name: Add cassandra apt key
   apt_key:
     url: https://www.apache.org/dist/cassandra/KEYS
+    keyring: /usr/share/keyrings/cassandra.gpg
     state: present
 
 - name: Add cassandra repository
   apt_repository:
-    repo: "deb http://www.apache.org/dist/cassandra/debian {{release_series}} main"
+    repo: "deb [signed-by=/usr/share/keyrings/cassandra.gpg arch=amd64] http://www.apache.org/dist/cassandra/debian {{release_series}} main"
     state: present
     update_cache: yes
 
 - name: Add cassandra source repository
   apt_repository:
-    repo: "deb-src http://www.apache.org/dist/cassandra/debian {{release_series}} main"
+    repo: "deb-src [signed-by=/usr/share/keyrings/cassandra.gpg arch=amd64] http://www.apache.org/dist/cassandra/debian {{release_series}} main"
     state: present
     update_cache: yes
 
