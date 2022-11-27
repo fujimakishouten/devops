@@ -31,11 +31,12 @@
 - name: Add jenkins apt key
   apt_key:
     url: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+    keyring: /usr/share/keyrings/jenkins-ci.org.gpg
     state: present
 
 - name: Add jenkins repository
   apt_repository:
-    repo: "deb http://pkg.jenkins-ci.org/debian binary/"
+    repo: "deb [signed-by=/usr/share/keyrings/jenkins-ci.org.gpg arch=amd64] http://pkg.jenkins-ci.org/debian binary/"
     state: present
     update_cache: yes
 
