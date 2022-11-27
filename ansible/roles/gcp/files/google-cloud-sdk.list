@@ -1,1 +1,1 @@
-deb [signed-by=/usr/share/keyrings/google.gpg arch=amd64] http://packages.cloud.google.com/apt cloud-sdk-bullseye main
+deb [arch=amd64 signed-by=/usr/share/keyrings/google.gpg] http://packages.cloud.google.com/apt cloud-sdk-bullseye main
