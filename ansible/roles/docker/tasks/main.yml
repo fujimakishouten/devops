@@ -1,0 +1,35 @@
+- name: Install required packages
+  apt:
+      name: "{{packages}}"
+      state: latest
+
+- name: Add docker key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    keyring: /usr/share/keyrings/docker-ce.gpg
+    state: present
+
+- name: Copy sources list
+  copy:
+    src: "{{item}}"
+    dest: /etc/apt/sources.list.d
+  with_items:
+      - docker.list
+
+- name: Install docker
+  apt:
+    # name: ["docker.io"]    # Distribusion package
+    name:
+      - "docker-ce"
+      # - "docker.io"    # Distribusion package
+      - kubernetes-client
+    state: latest
+    update_cache: yes
+
+- name: Copy daemon.json
+  copy:
+      src: daemon.json
+      dest: /etc/docker/daemon.json
+      backup: yes
+  notify: Restart docker
+

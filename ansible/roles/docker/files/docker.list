@@ -1,0 +1,3 @@
+deb [arch=amd64 signed-by=/usr/share/keyrings/docker-ce.gpg] https://download.docker.com/linux/debian bullseye stable
+# deb-src [arch=amd64 signed-by=/usr/share/keyrings/docker-ce.gpg] https://download.docker.com/linux/debian bullseye stable
+
