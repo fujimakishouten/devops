@@ -2,8 +2,8 @@ packages:
   - ansible
   - apache2-utils
   - aptitude
+  - aria2
   - awscli
-  - axel
   - bat
   - brotli
   - brz
