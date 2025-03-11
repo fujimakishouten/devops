@@ -12,7 +12,6 @@ packages:
   - clamav
   - colordiff
   - convmv
-  - ctop
   - curl
   - direnv
   - dnsutils
@@ -42,6 +41,7 @@ packages:
   - prettyping
   - pwgen
   - rar
+  - rclone
   - ripgrep
   - rkhunter
   - rlwrap
@@ -60,6 +60,7 @@ packages:
   - unar
   - unrar
   - vrms
+  - xh
   - w3m
   - whois
   - zsh
