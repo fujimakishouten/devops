@@ -1,14 +1,14 @@
-version: 3.2
-url: http://jaist.dl.sourceforge.net/project/postfixadmin/postfixadmin/postfixadmin-{{version}}/postfixadmin-{{version}}.tar.gz
-default_language: en
-database_type: mysqli
-admin_email: postmaster@example.com
+---
+version: "3.3.15"
+url: "https://github.com/postfixadmin/postfixadmin/archive/refs/tags/postfixadmin-{{version}}.tar.gz"
+default_language: "en"
+database_type: "mysqli"
+admin_email: "postmaster@example.com"
 page_size: 20
 aliases: 10
 mailboxes: 10
 maxquota: 10
 domain_quota_default: 2048
-quota: No
-domain_quota: No
+quota: "No"
+domain_quota: "No"
 quota_multiplier: 1024000
-

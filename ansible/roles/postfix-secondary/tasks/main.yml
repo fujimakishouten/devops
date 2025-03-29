@@ -1,39 +1,41 @@
-- name: Install postfix
+---
+- name: "Install postfix"
   apt:
     name:
-      - postfix
-    state: latest
+      - "postfix"
+    state: "latest"
   with_items:
-    - postfix
+    - "postfix"
 
-- name: Get postfix user id
-  command: id -u postfix
-  register: uid
+- name: "Get postfix user id"
+  command: |
+      id -u "postfix"
+  register: "uid"
 
-- name: Get postfix group id
-  command: id -g postfix
-  register: gid
+- name: "Get postfix group id"
+  command: |
+      id -g "postfix"
+  register: "gid"
 
-- name: Copy master.cf
+- name: "Copy master.cf"
   copy:
-    src: master.cf
-    dest: /etc/postfix/master.cf
-    backup: yes
-  notify: restart postfix
+    src: "master.cf"
+    dest: "/etc/postfix/master.cf"
+    backup: true
+  notify: "restart postfix"
 
-- name: Copy main.cf
+- name: "Copy main.cf"
   template:
-    src: main.cf.j2
-    dest: /etc/postfix/main.cf
-    backup: yes
-  notify: restart postfix
+    src: "main.cf.j2"
+    dest: "/etc/postfix/main.cf"
+    backup: true
+  notify: "restart postfix"
 
-- name: Copy transport.cf
+- name: "Copy transport.cf"
   template:
-    src: transport.cf.j2
-    dest: /etc/postfix/transport.cf
-    backup: yes
-  notify: 
-    - update transport db
-    - restart postfix
-
+    src: "transport.cf.j2"
+    dest: "/etc/postfix/transport.cf"
+    backup: true
+  notify:
+    - "update transport db"
+    - "restart postfix"

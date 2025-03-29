@@ -1,34 +1,36 @@
-g name: Install Git
+---
+- name: "Install Git"
   apt:
-    name: git
-    state: latest
+    name:
+      - "git"
+    state: "latest"
 
-- name: Get nave.sh
+- name: "Get nave.sh"
   git:
-    repo: https://github.com/isaacs/nave.git
-    dest: /opt/nave
-    update: yes
+    repo: "https://github.com/isaacs/nave.git"
+    dest: "/opt/nave"
+    update: true
 
-- name: Install node.js
-  shell: /opt/nave/bin/nave usemain latest
+- name: "Install node.js"
+  shell: |
+      /opt/nave/bin/nave usemain latest
 
-- name: Recover permissions
+- name: "Recover permissions"
   file:
-    path: /usr/local
-    owner: root
-    group: staff
-    recurse: yes
+    path: "/usr/local"
+    owner: "root"
+    group: "staff"
+    recurse: true
 
-- name: Install global node commands 
+- name: "Install global node commands"
   shell: |
     npm install --global @angular/cli @babel/cli @google-cloud/functions-emulator aws-sam-local azure-functions-core-tools@core bower browserify eslint gulp istanbul mocha parcel-bundler rollup stylelint stylus textlint tslint typescript types verdaccio webpack-cli yarn
 
-- name: Install global node modules 
+- name: "Install global node modules"
   shell: |
     npm install --global @babel/core @babel/preset-env @babel/plugin-transform-runtime @types/node @types/twilio aws-sdk awesome-typescript-loader babel-loader json-loader source-map-loader stylelint-config-recommended textlint-rule-preset-japanese textlint-rule-preset-jtf-style textlint-rule-prh textlint-rule-spellcheck-tech-word tslint-eslint-rules twilio webpack
 
-- name: Create root directory
+- name: "Create root directory"
   file:
-    path: /var/lib/node
-    state: directory
-
+    path: "/var/lib/node"
+    state: "directory"

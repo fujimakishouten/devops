@@ -1,15 +1,15 @@
-- name: Install PHP
+---
+- name: "Install PHP"
   apt:
     name:
-      - composer
-      - php-cli
-      - php-intl
-      - php-mbstring
-    state: latest
+      - "composer"
+      - "php-cli"
+      - "php-intl"
+      - "php-mbstring"
+    state: "latest"
 
-- name: Copy php.ini
+- name: "Copy php.ini"
   copy:
-    src: php.ini
-    dest: /etc/php/{{PHP_VERSION}}/cli/php.ini
-    backup: yes
-
+    src: "php.ini"
+    dest: "/etc/php/{{PHP_VERSION}}/cli/php.ini"
+    backup: true

@@ -1,45 +1,44 @@
-- name: Copy dhparams files
+---
+- name: "Copy dhparams files"
   copy:
-    #src: "{{item}}.pem" 
-    src: virtualhost.pem 
-    dest: /etc/h2o/dhparams/{{item}}.pem
+    src: "virtualhost.pem"
+    dest: "/etc/h2o/dhparams/{{item}}.pem"
   with_items: "{{domains}}"
-  notify: restart h2o
+  notify: "restart h2o"
 
-- name: Ensure host configuration file directory
+- name: "Ensure host configuration file directory"
   file:
-    path: /etc/h2o/hosts
-    state: directory
+    path: "/etc/h2o/hosts"
+    state: "directory"
 
-- name: Copy host configuration files
+- name: "Copy host configuration files"
   template:
-    src: host.conf.j2
-    dest: /etc/h2o/hosts/{{item}}.conf
-    backup: yes
+    src: "host.conf.j2"
+    dest: "/etc/h2o/hosts/{{item}}.conf"
+    backup: true
   with_items: "{{domains}}"
-  notify: restart h2o
+  notify: "restart h2o"
 
-- name: Ensure document root directory
+- name: "Ensure document root directory"
   file:
     path: "{{item}}"
-    state: directory
+    state: "directory"
   with_items:
-    - /var/www
-    - /usr/share/www/virtual
+    - "/var/www"
+    - "/usr/share/www/virtual"
 
-- name: Create symbolic link to document directory
+- name: "Create symbolic link to document directory"
   file:
-    src: /usr/share/www/virtual
-    dest: /var/www/virtual
-    state: link
+    src: "/usr/share/www/virtual"
+    dest: "/var/www/virtual"
+    state: "link"
 
-- name: Add host settings to h2o.conf
+- name: "Add host settings to h2o.conf"
   blockinfile:
-    path: /etc/h2o/h2o.conf
+    path: "/etc/h2o/h2o.conf"
     block: |
         hosts:
             <<: !file /etc/h2o/hosts/{{item}}.conf
     marker: "### Virtualhost: {{item}}"
   with_items: "{{domains}}"
-  notify: restart h2o
-
+  notify: "restart h2o"

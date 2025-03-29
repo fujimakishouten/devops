@@ -1,52 +1,53 @@
-- name: Install OpenDKIM
+---
+- name: "Install OpenDKIM"
   apt:
     name:
-      - opendkim
-      - opendkim-tools
-    state: latest
+      - "opendkim"
+      - "opendkim-tools"
+    state: "latest"
 
-- name: Ensure key directory
+- name: "Ensure key directory"
   file:
-    path: /etc/opendkim/{{item}}
-    state: directory
+    path: "/etc/opendkim/{{item}}"
+    state: "directory"
   with_items:
-    - keys
-    - tables
+    - "keys"
+    - "tables"
 
-- name: Get original opendkim.conf status
+- name: "Get original opendkim.conf status"
   stat:
-    path: /etc/opendkim.conf
-  register: opendkim
+    path: "/etc/opendkim.conf"
+  register: "opendkim"
 
-- name: Move opendkim.conf directory
-  command: mv /etc/opendkim.conf /etc/opendkim/opendkim.conf
-  when: not opendkim.stat.islnk
+- name: "Move opendkim.conf directory"
+  command: |
+      mv "/etc/opendkim.conf" "/etc/opendkim/opendkim.conf"
+  when: "not opendkim.stat.islnk"
 
-- name: Copy opendkim.conf
+- name: "Copy opendkim.conf"
   template:
-    src: opendkim.conf.j2
-    dest: /etc/opendkim/opendkim.conf
-    backup: yes
-  notify: restart opendkim
+    src: "opendkim.conf.j2"
+    dest: "/etc/opendkim/opendkim.conf"
+    backup: true
+  notify: "restart opendkim"
 
-- name: Link opendkim.conf
+- name: "Link opendkim.conf"
   file:
-    src: /etc/opendkim/opendkim.conf
-    dest: /etc/opendkim.conf
-    state: link
+    src: "/etc/opendkim/opendkim.conf"
+    dest: "/etc/opendkim.conf"
+    state: "link"
 
-- name: Copy tables
+- name: "Copy tables"
   copy:
     src: "{{item}}"
-    dest: /etc/opendkim/tables/{{item}}
-    backup: yes
+    dest: "/etc/opendkim/tables/{{item}}"
+    backup: true
   with_items:
-    - keys
-    - signs
-  notify: restart opendkim
+    - "keys"
+    - "signs"
+  notify: "restart opendkim"
 
-- name: Copy sample files
+- name: "Copy sample files"
   copy:
-    src: samples
-    dest: /etc/opendkim
-
+    src: "samples"
+    dest: "/etc/opendkim"

@@ -1,11 +1,11 @@
-version: 1.4.2
-url: https://github.com/roundcube/roundcubemail/releases/download/{{version}}/roundcubemail-{{version}}-complete.tar.gz
-default_host: ssl://localhost
+---
+version: "1.6.10"
+url: "https://github.com/roundcube/roundcubemail/releases/download/{{version}}/roundcubemail-{{version}}-complete.tar.gz"
+default_host: "ssl://localhost"
 default_port: 993
-support_url: https://localhost/
+support_url: "https://localhost/"
 des_key: "A random 24bytes string."
 identities_level: 1
-database_type: mysql
-database_host: localhost
-database_name: roundcube
-
+database_type: "mysql"
+database_host: "localhost"
+database_name: "roundcube"

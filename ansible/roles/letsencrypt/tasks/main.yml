@@ -1,17 +1,17 @@
-- name: Install Let's encrypt
+---
+- name: "Install Let's encrypt"
   apt:
     name:
-      - letsencrypt
-    state: latest
+      - "letsencrypt"
+    state: "latest"
 
-- name: Ensure config direcotry
+- name: "Ensure config direcotry"
   file:
-    path: /etc/letsencrypt
-    state: directory
+    path: "/etc/letsencrypt"
+    state: "directory"
 
-- name: Copy client.conf
+- name: "Copy client.conf"
   template:
-    src: client.conf.j2
-    dest: /etc/letsencrypt/client.conf
-    backup: yes
-
+    src: "client.conf.j2"
+    dest: "/etc/letsencrypt/client.conf"
+    backup: true

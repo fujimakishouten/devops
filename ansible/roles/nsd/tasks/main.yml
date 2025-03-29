@@ -1,50 +1,50 @@
-- name: Install NSD
+---
+- name: "Install NSD"
   apt:
     name:
-      - nsd
-    state: latest
+      - "nsd"
+    state: "latest"
 
-- name: Ensure zone files directory
+- name: "Ensure zone files directory"
   file:
-    path: /etc/nsd/zone
-    state: directory
+    path: "/etc/nsd/zone"
+    state: "directory"
 
-- name: Ensure sample files directory
+- name: "Ensure sample files directory"
   file:
-    path: /etc/nsd/samples
-    state: directory
+    path: "/etc/nsd/samples"
+    state: "directory"
 
-- name: Copy nsd.conf
+- name: "Copy nsd.conf"
   copy:
-    src: nsd.conf
-    dest: /etc/nsd/nsd.conf
-    backup: yes
-  notify: restart nsd
+    src: "nsd.conf"
+    dest: "/etc/nsd/nsd.conf"
+    backup: true
+  notify: "restart nsd"
 
-- name: Copy config template 
+- name: "Copy config template"
   template:
     src: "{{item}}.j2"
-    dest: /etc/nsd/nsd.conf.d/{{item}}
-    backup: yes
+    dest: "/etc/nsd/nsd.conf.d/{{item}}"
+    backup: true
   with_items:
-    - server.conf
-  notify: restart nsd
+    - "server.conf"
+  notify: "restart nsd"
 
-- name: Copy zone config file
+- name: "Copy zone config file"
   template:
     src: "{{item}}.j2"
-    dest: /etc/nsd/nsd.conf.d/{{item}}
-    backup: yes
+    dest: "/etc/nsd/nsd.conf.d/{{item}}"
+    backup: true
   with_items:
-    - zone.conf
-  notify: restart nsd
+    - "zone.conf"
+  notify: "restart nsd"
 
-- name: Copy sample zone file
+- name: "Copy sample zone file"
   copy:
     src: "{{item}}"
-    dest: /etc/nsd/samples/{{item}}
-    backup: yes
+    dest: "/etc/nsd/samples/{{item}}"
+    backup: true
   with_items:
-    - zonefile
-    - zonefile.rev
-
+    - "zonefile"
+    - "zonefile.rev"

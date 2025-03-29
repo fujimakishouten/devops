@@ -1,9 +1,10 @@
-- name: restart rsyslog
+---
+- name: "restart rsyslog"
   service:
-    name: rsyslog
-    state: restarted
+    name: "rsyslog"
+    state: "restarted"
 
-- name: restart netfilter-persistent
+- name: "restart netfilter-persistent"
   service:
-    name: netfilter-persistent
-    state: restarted
+    name: "netfilter-persistent"
+    state: "restarted"

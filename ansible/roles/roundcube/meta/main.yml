@@ -1,5 +1,5 @@
+---
 dependencies:
-  - {role: mysql}
-  - {role: h2o}
-  - {role: postfix}
-
+  - role: "mysql"
+  - role: "h2o"
+  - role: "postfix"

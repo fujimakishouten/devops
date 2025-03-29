@@ -1,17 +1,17 @@
-- name: Install PHP
+---
+- name: "Install PHP"
   apt:
     pkg:
-      - composer
-      - php-fpm
-      - php-imap
-      - php-intl
-      - php-mbstring
-      - php-mysql
-    state: latest
+      - "composer"
+      - "php-fpm"
+      - "php-imap"
+      - "php-intl"
+      - "php-mbstring"
+      - "php-mysql"
+    state: "latest"
 
-- name: Copy php.ini
+- name: "Copy php.ini"
   copy:
-    src: php.ini
-    dest: /etc/php/{{PHP_VERSION}}/fpm/php.ini
-    backup: yes
-
+    src: "php.ini"
+    dest: "/etc/php/{{PHP_VERSION}}/fpm/php.ini"
+    backup: true

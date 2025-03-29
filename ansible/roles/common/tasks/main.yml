@@ -1,16 +1,16 @@
-- name: Generate locale
+---
+- name: "Generate locale"
   locale_gen:
     name: "{{item}}"
-    state: present
+    state: "present"
   with_items: "{{locales}}"
 
-- name: Update locale
+- name: "Update locale"
   shell: |
     dpkg-reconfigure --frontend noninteractive locales
-    update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
+    update-locale LANG="C.UTF-8" LANGUAGE="C.UTF-8" LC_ALL="C.UTF-8"
 
-- name: Set timezone
+- name: "Set timezone"
   shell: |
-    echo Asia/Tokyo > /etc/timezone
+    echo "Asia/Tokyo" > /etc/timezone
     dpkg-reconfigure --frontend noninteractive tzdata
-

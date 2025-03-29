@@ -1,17 +1,16 @@
-- name: Install spamassassin
+- name: "Install spamassassin"
   apt:
     name:
-      - spamassassin
-    state: latest
+      - "spamassassin"
+    state: "latest"
 
-- name: Copy config files
+- name: "Copy config files"
   copy:
     src: "{{item}}"
-    dest: /etc/spamassassin/{{item}}
-    backup: yes
+    dest: "/etc/spamassassin/{{item}}"
+    backup: true
   with_items:
-    - conf.d
-    - local.cf
-    - includes.cf
-  notify: restart spamassassin
-
+    - "conf.d"
+    - "local.cf"
+    - "includes.cf"
+  notify: "restart spamassassin"

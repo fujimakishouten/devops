@@ -1,3 +1,5 @@
-- name: restart opendmarc
-  service: name=opendmarc state=restarted
-
+---
+- name: "restart opendmarc"
+  service:
+    name: "opendmarc"
+    state: "restarted"

@@ -1,4 +1,4 @@
+---
 dependencies:
-  - {role: h2o}
-  - {role: postfix}
-
+  - role: "h2o"
+  - role: "postfix"

@@ -1,77 +1,81 @@
-- name: Install postfix
+---
+- name: "Install dovecot"
   apt:
     name:
-      - dovecot-mysql
-    state: latest
+      - "dovecot-mysql"
+    state: "latest"
 
-- name: Ensure database password file directory
+- name: "Ensure database password file directory"
   file:
-    path: /usr/share/mysql/password
-    state: directory
-    mode: 750
+    path: "/usr/share/mysql/password"
+    state: "directory"
+    mode: 0750
 
-- name: Copy database password file
+- name: "Copy database password file"
   copy:
     src: "{{item}}"
-    dest: /usr/share/mysql/password/{{item}}
-    mode: 640
+    dest: "/usr/share/mysql/password/{{item}}"
+    mode: 0640
   with_items:
-    - dovecot
+    - "dovecot"
 
-- name: Register database user name
-  shell: cat /usr/share/mysql/password/postfix | cut --delimiter=":" --fields=1
-  register: user
+- name: "Register database user name"
+  shell: |
+      cat "/usr/share/mysql/password/postfix" | cut --delimiter=":" --fields=1
+  register: "user"
 
-- name: Register database password
-  shell: cat /usr/share/mysql/password/postfix | cut --delimiter=":" --fields=2
-  register: password
+- name: "Register database password"
+  shell: |
+      cat "/usr/share/mysql/password/postfix" | cut --delimiter=":" --fields=2
+  register: "password"
 
-- name: Ensure database user
+- name: "Ensure database user"
   mysql_user:
     name: "{{user.stdout}}"
     password: "{{password.stdout}}"
     priv: "{{dbname}}.*:ALL,GRANT"
-    state: present
-    login_unix_socket: /var/run/mysqld/mysqld.sock
+    state: "present"
+    login_unix_socket: "/var/run/mysqld/mysqld.sock"
 
-- name: Ensure database
+- name: "Ensure database"
   mysql_db:
-      name: "{{dbname}}"
-      state: present
+    name: "{{dbname}}"
+    state: "present"
 
-- name: Get postfix user id
-  command: id -u postfix
-  register: uid
+- name: "Get postfix user id"
+  command: |
+    id -u "postfix"
+  register: "uid"
 
-- name: Get postfix group id
-  command: id -g postfix
-  register: gid
+- name: "Get postfix group id"
+  command: |
+    id -g "postfix"
+  register: "gid"
 
-- name: Copy config files
+- name: "Copy config files"
   copy:
     src: "{{item}}"
-    dest: /etc/dovecot/conf.d/{{item}}
-    backup: yes
+    dest: "/etc/dovecot/conf.d/{{item}}"
+    backup: true
   with_items:
-    - 10-auth.conf
-    - 10-master.conf
-  notify: restart dovecot
+    - "10-auth.conf"
+    - "10-master.conf"
+  notify: "restart dovecot"
 
-- name: Copy config files
+- name: "Copy config files"
   template:
     src: "{{item}}.j2"
-    dest: /etc/dovecot/conf.d/{{item}}
-    backup: yes
+    dest: "/etc/dovecot/conf.d/{{item}}"
+    backup: true
   with_items:
-    - 10-mail.conf
-    - 10-ssl.conf
-  notify: restart dovecot
+    - "10-mail.conf"
+    - "10-ssl.conf"
+  notify: "restart dovecot"
 
-- name: Copy dovecot-sql.conf.ext
+- name: "Copy dovecot-sql.conf.ext"
   template:
-    src: dovecot-sql.conf.ext.j2
-    dest: /etc/dovecot/dovecot-sql.conf.ext
-    mode: 600
-    backup: yes
-  notify: restart dovecot
-
+    src: "dovecot-sql.conf.ext.j2"
+    dest: "/etc/dovecot/dovecot-sql.conf.ext"
+    mode: 0600
+    backup: true
+  notify: "restart dovecot"

@@ -1,75 +1,77 @@
-- name: Ensure database password file directory
+---
+- name: "Ensure database password file directory"
   file:
-    path: /usr/share/mysql/password
-    state: directory
-    mode: 750
+    path: "/usr/share/mysql/password"
+    state: "directory"
+    mode: 0750
 
-- name: Copy database password file
+- name: "Copy database password file"
   copy:
     src: "{{item}}"
-    dest: /usr/share/mysql/password/{{item}}
-    mode: 640
+    dest: "/usr/share/mysql/password/{{item}}"
+    mode: 0640
   with_items:
-    - roundcube
+    - "roundcube"
 
-- name: Ensure roundcube directory
+- name: "Ensure roundcube directory"
   file:
-    path: /usr/share/roundcube
-    state: directory
+    path: "/usr/share/roundcube"
+    state: "directory"
 
-- name: Ensure roundcube config directory
+- name: "Ensure roundcube config directory"
   file:
-    path: /etc/roundcube
-    state: directory
+    path: "/etc/roundcube"
+    state: "directory"
 
-- name: Check install
+- name: "Check install"
   stat:
-    path: /usr/share/roundcube/roundcube/config/config.inc.php
-  register: config
+    path: "/usr/share/roundcube/roundcube/config/config.inc.php"
+  register: "config"
 
-- name: Download roundcube
+- name: "Download roundcube"
   get_url:
     url: "{{url}}"
-    dest: /tmp
-  when: not config.stat.exists
+    dest: "/tmp"
+  when: "not config.stat.exists"
 
-- name: Exact roundcube
+- name: "Exact roundcube"
   command: |
-    tar zxf /tmp/roundcubemail-{{version}}-complete.tar.gz -C /usr/share/roundcube
-  when: not config.stat.exists
+    tar zxf "/tmp/roundcubemail-{{version}}-complete.tar.gz" -C "/usr/share/roundcube"
+  when: "not config.stat.exists"
 
-- name: Link roundcube
+- name: "Link roundcube"
   file:
-    src: /usr/share/roundcube/roundcubemail-{{version}}
-    dest: /usr/share/roundcube/roundcube
-    state: link
+    src: "/usr/share/roundcube/roundcubemail-{{version}}"
+    dest: "/usr/share/roundcube/roundcube"
+    state: "link"
 
-- name: Configure config directory
+- name: "Configure config directory"
   file:
-    path: /usr/share/roundcube/roundcube/{{item}}
-    group: www-data
-    mode: 775
+    path: "/usr/share/roundcube/roundcube/{{item}}"
+    group: "www-data"
+    mode: 0775
   with_items:
-    - config
-    - logs
+    - "config"
+    - "logs"
 
-- name: Ensure document root
+- name: "Ensure document root"
   file:
-    src: /usr/share/roundcube/roundcube/public_html
-    dest: /var/www/web/roundcube
-    state: link
+    src: "/usr/share/roundcube/roundcube/public_html"
+    dest: "/var/www/web/roundcube"
+    state: "link"
 
-- name: Register database user name
-  shell: cat /usr/share/mysql/password/roundcube | cut --delimiter=":" --fields=1
-  register: user
+- name: "Register database user name"
+  shell: |
+    cat "/usr/share/mysql/password/roundcube" | cut --delimiter=":" --fields=1
+  register: "user"
 
-- name: Register database password
-  shell: cat /usr/share/mysql/password/roundcube | cut --delimiter=":" --fields=2
-  register: password
+- name: "Register database password"
+  shell: |
+      cat "/usr/share/mysql/password/roundcube" | cut --delimiter=":" --fields=2
+  register: "password"
 
-- name: Copy config.inc.php
+- name: "Copy config.inc.php"
   template:
-    src: config.inc.php.j2
-    dest: /etc/roundcube/config.inc.php
-    backup: yes
-
+    src: "config.inc.php.j2"
+    dest: "/etc/roundcube/config.inc.php"
+    backup: true

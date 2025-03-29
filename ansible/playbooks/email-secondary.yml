@@ -1,11 +1,13 @@
-- hosts: email-secondary
-  become: yes
+---
+- hosts: "email-secondary"
+  become: true
+  become_user: "root"
   roles:
-    - ../roles/letsencrypt
-    - ../roles/mysql
-    - ../roles/clamsmtp
-    - ../roles/opendkim
-    - ../roles/opendmarc
-    - ../roles/spamassassin
-    - ../roles/postfix-secondary
-    - ../roles/dovecot
+    - "../roles/letsencrypt"
+    - "../roles/mysql"
+    - "../roles/clamsmtp"
+    - "../roles/opendkim"
+    - "../roles/opendmarc"
+    - "../roles/spamassassin"
+    - "../roles/postfix-secondary"
+    - "../roles/dovecot"

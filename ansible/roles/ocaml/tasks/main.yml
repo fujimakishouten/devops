@@ -1,6 +1,6 @@
-- name: Install packages
+---
+- name: "Install packages"
   apt:
     name: "{{packages}}"
-    state: latest
-    update_cache: yes
-
+    state: "latest"
+    update_cache: true

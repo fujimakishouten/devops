@@ -1,6 +1,7 @@
-hosts: localhost
-dbname: postfix
-myhostname: example.com
+---
+hosts: "localhost"
+dbname: "postfix"
+myhostname: "example.com"
 mydestinations:
  - "{{myhostname}}"
  - "localhost"
@@ -10,8 +11,7 @@ mynetworks:
  - "[::ffff:127.0.0.0]/104"
  - "[::1]/128"
 relay_domains:
- - example.com
+ - "example.com"
 smtpd_milters:
- - inet:127.0.0.1:8891
+ - "inet:127.0.0.1:8891"
 non_smtpd_milters: "{{smtpd_milters}}"
-

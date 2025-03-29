@@ -1,6 +1,10 @@
-- name: restart h2o 
-  service: name=h2o state=restarted
+---
+- name: "restart h2o"
+  service:
+    name: "h2o"
+    state: "restarted"
 
-- name: restart jenkins
-  service: name=jenkins state=restarted
-
+- name: "restart jenkins"
+  service:
+    name: "jenkins"
+    state: "restarted"

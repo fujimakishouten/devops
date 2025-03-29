@@ -1,4 +1,4 @@
-selector: default
+---
+selector: "default"
 domains:
-  - example.com
-
+  - "example.com"

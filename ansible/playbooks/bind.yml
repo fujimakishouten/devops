@@ -1,5 +1,6 @@
-- hosts: bind
-  become: yes
-  become_user: root
+---
+- hosts: "bind"
+  become: true
+  become_user: "root"
   roles:
-    - ../roles/bind
+    - "../roles/bind"

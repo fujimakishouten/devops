@@ -1,6 +1,10 @@
-- name: restart clamsmtp
-  service: name=clamsmtp state=restarted
+---
+- name: "restart clamsmtp"
+  service:
+    name: "clamsmtp"
+    state: "restarted"
 
-- name: restart clamsmtpd
-  service: name=clamsmtp state=restarted
-
+- name: "restart clamsmtpd"
+  service:
+    name: "clamsmtp"
+    state: "restarted"

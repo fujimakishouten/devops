@@ -13,4 +13,3 @@ client:
     peer:
         endpoint: " 219.117.205.216:51820"
         allowed_ips: "0.0.0.0/0"
-

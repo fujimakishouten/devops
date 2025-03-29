@@ -1,7 +1,7 @@
-- name: Change SSH Port to 10022
+---
+- name: "Change SSH Port to 10022"
   copy:
-    src: sshd_config
-    dest: /etc/ssh/sshd_config
-    backup: yes
-  notify: restart ssh
-
+    src: "sshd_config"
+    dest: "/etc/ssh/sshd_config"
+    backup: true
+  notify: "restart ssh"

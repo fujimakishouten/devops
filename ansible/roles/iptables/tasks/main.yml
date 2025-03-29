@@ -1,29 +1,29 @@
-- name: Install packages
+---
+- name: "Install packages"
   apt:
     name:
-      - iptables
-      - iptables-persistent
-    state: latest
-    update_cache: yes
+      - "iptables"
+      - "iptables-persistent"
+    state: "latest"
+    update_cache: true
 
-- name: Copy rules
+- name: "Copy rules"
   copy:
     src: "{{item}}"
-    dest: /etc/iptables
-    backup: yes
+    dest: "/etc/iptables"
+    backup: true
   with_items:
-    - rules.v4
-    - rules.v6
-  notify: restart netfilter-persistent
+    - "rules.v4"
+    - "rules.v6"
+  notify: "restart netfilter-persistent"
 
-- name: Copy rsyslog settings
+- name: "Copy rsyslog settings"
   copy:
-    src: iptables.conf
-    dest: /etc/rsyslog.d/iptables.conf
-  notify: restart rsyslog
+    src: "iptables.conf"
+    dest: "/etc/rsyslog.d/iptables.conf"
+  notify: "restart rsyslog"
 
-- name: Copy logrotate settings
+- name: "Copy logrotate settings"
   copy:
-    src: iptables
-    dest: /etc/logrotate.d/iptables
-
+    src: "iptables"
+    dest: "/etc/logrotate.d/iptables"

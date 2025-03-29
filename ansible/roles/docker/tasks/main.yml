@@ -1,35 +1,43 @@
-- name: Install required packages
-  apt:
-      name: "{{packages}}"
-      state: latest
+---
+# - name: "Install required packages"
+#   ansible.builtin.apt:
+#     name:
+#       - "apt-transport-https"
+#       - "ca-certificates"
+#       - "curl"
+#       - "software-properties-common"
+#     state: "latest"
+#     update_cache: true
 
-- name: Add docker key
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    keyring: /usr/share/keyrings/docker-ce.gpg
-    state: present
+# - name: "Add docker keys"
+#   ansible.builtin.get_url:
+#     url: "https://download.docker.com/linux/debian/gpg"
+#     dest: "/usr/share/keyrings/docker-ce.asc"
 
-- name: Copy sources list
-  copy:
-    src: "{{item}}"
-    dest: /etc/apt/sources.list.d
-  with_items:
-      - docker.list
+# - name: "Copy sources list"
+#   ansible.builtin.copy:
+#     src: "docker-ce.list"
+#     dest: "/etc/apt/sources.list.d"
 
-- name: Install docker
-  apt:
-    # name: ["docker.io"]    # Distribusion package
+# - name: Install docker-ce
+#   ansible.builtin.apt:
+#     name:
+#       - "docker-ce"
+#       - "kubernetes-client"
+#     state: "latest"
+#     update_cache: true
+
+- name: "Install docker"
+  ansible.builtin.apt:
     name:
-      - "docker-ce"
-      # - "docker.io"    # Distribusion package
-      - kubernetes-client
-    state: latest
-    update_cache: yes
+      - "docker.io"
+      - "kubernetes-client"
+    state: "latest"
+    update_cache: true
 
-- name: Copy daemon.json
-  copy:
-      src: daemon.json
-      dest: /etc/docker/daemon.json
-      backup: yes
-  notify: Restart docker
-
+- name: "Copy daemon.json"
+  ansible.builtin.copy:
+    src: "daemon.json"
+    dest: "/etc/docker/daemon.json"
+    backup: true
+  notify: "restart docker"

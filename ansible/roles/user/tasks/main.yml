@@ -1,76 +1,80 @@
-- name: Create user group
+---
+- name: "Create user group"
   group:
-    name: fujimakishouten 
-    state: present
+    name: "fujimakishouten"
+    state: "present"
 
-- name: Create share directory
+- name: "Create share directory"
   file:
-    path: /usr/share/fujimakishouten
-    mode: 775
-    group: fujimakishouten
-    state: directory
+    path: "/usr/share/fujimakishouten"
+    mode: 0775
+    group: "fujimakishouten"
+    state: "directory"
 
-- name: Create user password directory
+- name: "Create user password directory"
   file:
-    path: /usr/share/fujimakishouten/users
-    mode: 770
-    group: fujimakishouten
-    state: directory
+    path: "/usr/share/fujimakishouten/users"
+    mode: 0770
+    group: "fujimakishouten"
+    state: "directory"
 
-- name: Copy password files
+- name: "Copy password files"
   copy:
-    src: fujimakishouten
-    dest: /usr/share/fujimakishouten/users/fujimakishouten
-    mode: 640
-    group: fujimakishouten
-    backup: yes
+    src: "fujimakishouten"
+    dest: "/usr/share/fujimakishouten/users/fujimakishouten"
+    mode: 0640
+    group: "fujimakishouten"
+    backup: true
 
-- name: Register username
-  shell: cat /usr/share/fujimakishouten/users/fujimakishouten | cut --delimiter=":" --fields=1
-  register: user
+- name: "Register username"
+  shell: |
+      cat "/usr/share/fujimakishouten/users/fujimakishouten" | cut --delimiter=":" --fields=1
+  register: "user"
 
-- name: Register password
-  shell: cat /usr/share/fujimakishouten/users/fujimakishouten | cut --delimiter=":" --fields=2
-  register: password
+- name: "Register password"
+  shell: |
+      cat "/usr/share/fujimakishouten/users/fujimakishouten" | cut --delimiter=":" --fields=2
+  register: "password"
 
-- name: Hash password
-  shell: mkpasswd --method=SHA-512 {{password.stdout}}
-  register: hash
+- name: "Hash password"
+  shell: |
+      mkpasswd --method="SHA-512" "{{password.stdout}}"
+  register: "hash"
 
-- name: Register user
+- name: "Register user"
   user:
     name: "{{user.stdout}}"
-    group: fujimakishouten
+    group: "fujimakishouten"
     groups: "adm"
     password: "{{hash.stdout}}"
-    shell: /bin/zsh
-    append: yes
+    shell: "/bin/zsh"
+    append: true
 
-- name: Add to sudoers
-  shell: /bin/bash -c "echo 'fujimakishouten  ALL=(ALL:ALL) ALL'" > /etc/sudoers.d/fujimakishouten
+- name: "Add to sudoers"
+  shell: |
+      /bin/bash -c "echo 'fujimakishouten  ALL=(ALL:ALL) ALL'" > "/etc/sudoers.d/fujimakishouten"
 
-- name: Create home directory
+- name: "Create home directory"
   file:
-    path: /home/fujimakishouten
-    mode: 755
-    owner: fujimakishouten
-    group: fujimakishouten
-    state: directory
+    path: "/home/fujimakishouten"
+    mode: 0755
+    owner: "fujimakishouten"
+    group: "fujimakishouten"
+    state: "directory"
 
-- name: Create SSH directory
+- name: "Create SSH directory"
   file:
-    path: /home/fujimakishouten/.ssh
-    mode: 755
-    owner: fujimakishouten
-    group: fujimakishouten
-    state: directory
+    path: "/home/fujimakishouten/.ssh"
+    mode: 0755
+    owner: "fujimakishouten"
+    group: "fujimakishouten"
+    state: "directory"
 
-- name: Copy SSH public key
+- name: "Copy SSH public key"
   copy:
-    src: authorized_keys
-    dest: /home/fujimakishouten/.ssh/authorized_keys
-    mode: 644
-    owner: fujimakishouten
-    group: fujimakishouten
-    backup: yes
-
+    src: "authorized_keys"
+    dest: "/home/fujimakishouten/.ssh/authorized_keys"
+    mode: 0644
+    owner: "fujimakishouten"
+    group: "fujimakishouten"
+    backup: true

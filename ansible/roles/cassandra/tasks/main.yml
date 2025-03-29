@@ -1,54 +1,51 @@
-- name: Add cassandra apt key
-  apt_key:
-    url: https://www.apache.org/dist/cassandra/KEYS
-    keyring: /usr/share/keyrings/cassandra.gpg
-    state: present
+---
+- name: "Add cassandra apt key"
+  ansible.builtin.get_url:
+    url: "https://www.apache.org/dist/cassandra/KEYS"
+    dest: "/usr/share/keyrings/cassandra.gpg"
 
-- name: Add cassandra repository
-  apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/cassandra.gpg] http://www.apache.org/dist/cassandra/debian {{release_series}} main"
-    state: present
-    update_cache: yes
+- name: "Add cassandra repository"
+  template:
+    src: "cassandra.sources.j2"
+    dest: "/etc/apt/sources.list.d/cassandra.sources"
+    backup: true
 
-- name: Add cassandra source repository
-  apt_repository:
-    repo: "deb-src [arch=amd64 signed-by=/usr/share/keyrings/cassandra.gpg] http://www.apache.org/dist/cassandra/debian {{release_series}} main"
-    state: present
-    update_cache: yes
+- name: "Update cache"
+  ansible.builtin.apt:
+    update_cache: true
 
-- name: Install pip
+- name: "Install pip"
   apt:
     name:
-      - python3-pip
-    state: latest
+      - "python3-pip"
+    state: "latest"
 
-- name: Install cassandra driver
+- name: "Install cassandra driver"
   pip:
     name:
-      - cassandra-driver
-    state: present
+      - "cassandra-driver"
+    state: "present"
 
-- name: Copy environment file
+- name: "Copy environment file"
   copy:
-    src: environment
-    dest: /etc/environment
-    backup: yes
+    src: "environment"
+    dest: "/etc/environment"
+    backup: true
 
-- name: Install cassandra
+- name: "Install cassandra"
   apt:
     name:
-      - cassandra
-      - cassandra-tools
-    state: latest
-  notify: restart cassandra
+      - "cassandra"
+      - "cassandra-tools"
+    state: "latest"
+  notify: "restart cassandra"
 
-- name: Copy cassandra settings
+- name: "Copy cassandra settings"
   template:
     src: "{{item}}.j2"
-    dest: /etc/cassandra/{{item}}
-    backup: yes
+    dest: "/etc/cassandra/{{item}}"
+    backup: true
   with_items:
-    - cassandra-env.sh
-    - cassandra.yaml
-  notify: restart cassandra
-
+    - "cassandra-env.sh"
+    - "cassandra.yaml"
+  notify: "restart cassandra"

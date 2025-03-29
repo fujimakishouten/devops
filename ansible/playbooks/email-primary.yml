@@ -1,16 +1,17 @@
-- hosts: email-primary
-  become: yes
-  become_user: yes
+---
+- hosts: "email-primary"
+  become: true
+  become_user: "root"
   roles:
-    - ../roles/letsencrypt
-    - ../roles/mysql
-    - ../roles/clamsmtp
-    - ../roles/opendkim
-    - ../roles/opendmarc
-    - ../roles/spamassassin
-    - ../roles/postfix
-    - ../roles/dovecot
-    - ../roles/php-fpm
-    - ../roles/h2o
-    - ../roles/postfixadmin
-    - ../roles/roundcube
+    - "../roles/letsencrypt"
+    - "../roles/mysql"
+    - "../roles/clamsmtp"
+    - "../roles/opendkim"
+    - "../roles/opendmarc"
+    - "../roles/spamassassin"
+    - "../roles/postfix"
+    - "../roles/dovecot"
+    - "../roles/php-fpm"
+    - "../roles/h2o"
+    - "../roles/postfixadmin"
+    - "../roles/roundcube"

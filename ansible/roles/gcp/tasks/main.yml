@@ -1,31 +1,29 @@
-- name: Install required packages
+---
+- name: "Install required packages"
   apt:
     name:
-      - apt-transport-https
-    state: latest
+      - "apt-transport-https"
+    state: "latest"
 
-- name: Add google key
-  apt_key:
-    url: "{{item}}"
-    keyring: /usr/share/keyrings/google.gpg
-    state: present
+- name: "Add google key"
+  ansible.builtin.get_url:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    dest: "/usr/share/keyrings/google.gpg"
+
+- name: "Copy sources list files"
+  ansible.builtin.copy:
+    src: "sources.list.d/{{item}}"
+    dest: "/etc/apt/sources.list.d"
+    backup: true
   with_items:
-      - https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    - "google-cloud-sdk.sources"
 
-- name: Copy sources list
-  copy:
-    src: "{{item}}"
-    dest: /etc/apt/sources.list.d
-  with_items:
-      - google-cloud-sdk.list
-
-- name: Update cache
+- name: "Update cache"
   apt:
-    update_cache: yes
+    update_cache: true
 
-- name: Install google-cloud-sdk
+- name: "Install google-cloud-sdk"
   apt:
     name:
-      - google-cloud-sdk
-    state: latest
-
+      - "google-cloud-sdk"
+    state: "latest"

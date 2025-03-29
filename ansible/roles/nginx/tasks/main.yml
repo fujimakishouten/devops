@@ -1,24 +1,24 @@
-- name: Install nginx
+---
+- name: "Install nginx"
   apt:
     name:
-      - nginx
-    state: latest
+      - "nginx"
+    state: "latest"
 
-- name: Ensure dhparam file directory
+- name: "Ensure dhparam file directory"
   file:
-    path: /etc/nginx/dhparams
-    state: directory
+    path: "/etc/nginx/dhparams"
+    state: "directory"
 
-- name: Copy dhparam file
+- name: "Copy dhparam file"
   copy:
-    src: default.pem
-    dest: /etc/nginx/dhparams/default.pem
-    backup: yes
+    src: "default.pem"
+    dest: "/etc/nginx/dhparams/default.pem"
+    backup: true
 
-- name: Copy default site configuration
+- name: "Copy default site configuration"
   template:
-    src: default.j2
-    dest: /etc/nginx/sites-available/default
-    backup: yes
-  notify: restart nginx
-
+    src: "default.j2"
+    dest: "/etc/nginx/sites-available/default"
+    backup: true
+  notify: "restart nginx"

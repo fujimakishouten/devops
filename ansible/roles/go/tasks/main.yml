@@ -1,6 +1,7 @@
-- name: Install packages
+---
+- name: "Install packages"
   apt:
-    name: "{{packages}}"
-    state: latest
-    update_cache: yes
-
+    name:
+      - "golang"
+    state: "latest"
+    update_cache: true

@@ -1,38 +1,38 @@
-- name: Install h2o
+---
+- name: "Install h2o"
   apt:
     name:
-      - h2o
-    state: latest
+      - "h2o"
+    state: "latest"
 
-- name: Ensure dhparams directory
+- name: "Ensure dhparams directory"
   file:
-    path: /etc/h2o/dhparams
-    state: directory
+    path: "/etc/h2o/dhparams"
+    state: "directory"
 
-- name: Copy dhparams files
+- name: "Copy dhparams files"
   copy:
-    src: default.pem 
-    dest: /etc/h2o/dhparams/default.pem
-  notify: restart h2o
+    src: "default.pem "
+    dest: "/etc/h2o/dhparams/default.pem"
+  notify: "restart h2o"
 
-- name: Ensure document root directory
+- name: "Ensure document root directory"
   file:
     path: "{{item}}"
-    state: directory
+    state: "directory"
   with_items:
-    - /var/www
-    - /usr/share/www/web
+    - "/var/www"
+    - "/usr/share/www/web"
 
-- name: Create symbolic link to document root
+- name: "Create symbolic link to document root"
   file:
-    src: /usr/share/www/web
-    dest: /var/www/web
-    state: link
+    src: "/usr/share/www/web"
+    dest: "/var/www/web"
+    state: "link"
 
-- name: Copy h2o.conf file
+- name: "Copy h2o.conf file"
   template:
-    src: h2o.conf.j2
-    dest: /etc/h2o/h2o.conf
-    backup: yes
-  notify: restart h2o
-
+    src: "h2o.conf.j2"
+    dest: "/etc/h2o/h2o.conf"
+    backup: true
+  notify: "restart h2o"

@@ -1,58 +1,57 @@
-- name: Add jenkins user
+---
+- name: "Add jenkins user"
   user:
-    name: jenkins
-    groups: shadow
-    shell: /bin/zsh
-    state: present
-    system: yes
+    name: "jenkins"
+    groups: "shadow"
+    shell: "/bin/zsh"
+    state: "present"
+    system: true
 
-- name: Ensure home directory
+- name: "Ensure home directory"
   file:
-    path: /home/jenkins
-    owner: jenkins
-    group: jenkins
-    state: directory
+    path: "/home/jenkins"
+    owner: "jenkins"
+    group: "jenkins"
+    state: "directory"
 
-- name: Ensure .ssh directory
+- name: "Ensure .ssh directory"
   file:
-    path: /home/jenkins/.ssh
-    owner: jenkins
-    group: jenkins
-    state: directory
+    path: "/home/jenkins/.ssh"
+    owner: "jenkins"
+    group: "jenkins"
+    state: "directory"
 
-- name: Copy id_rsa file
+- name: "Copy id_rsa file"
   copy:
-    src: id_rsa
-    dest: /home/jenkins/.ssh/id_rsa
-    owner: jenkins
-    group: jenkins
-    mode: 600
+    src: "id_rsa"
+    dest: "/home/jenkins/.ssh/id_rsa"
+    owner: "jenkins"
+    group: "jenkins"
+    mode: 0600
 
-- name: Add jenkins apt key
-  apt_key:
-    url: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
-    keyring: /usr/share/keyrings/jenkins-ci.org.gpg
-    state: present
+- name: "Add jenkins apt keys"
+  ansible.builtin.get_url:
+    url: "https://pkg.jenkins-ci.org/debian/jenkins-ci.org.key"
+    dest: "/usr/share/keyrings/jenkins-ci.org.gpg"
 
-- name: Add jenkins repository
-  apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/jenkins-ci.org.gpg] http://pkg.jenkins-ci.org/debian binary/"
-    state: present
-    update_cache: yes
+- name: "Add jenkins repository"
+  ansible.builtin.copy:
+    src: "sources.list.d/jenkins.sources"
+    dest: "/etc/apt/sources.list.d"
+    backup: true
 
-- name: Install fabric, jenkins and openjdk
+- name: "Install fabric, jenkins and openjdk"
   apt:
-    pkg:
-      - fabric
-      - jenkins
-      - openjdk-11-jre-headless
-    state: latest
-  notify: restart jenkins
+    name:
+      - "fabric"
+      - "jenkins"
+      - "openjdk-11-jre-headless"
+    state: "latest"
+  notify: "restart jenkins"
 
-- name: Copy jenkins site settings
+- name: "Copy jenkins site settings"
   template:
-    src: h2o.conf.j2
-    dest: /etc/h2o/h2o.conf
-    backup: yes
-  notify: restart h2o
-
+    src: "h2o.conf.j2"
+    dest: "/etc/h2o/h2o.conf"
+    backup: true
+  notify: "restart h2o"

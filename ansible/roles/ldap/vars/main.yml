@@ -1,10 +1,10 @@
-ldap_domain: example.com
-ldap_admin: admin
-ldap_password: password
-ldap_protocol: ldap
-ldap_host: localhost
-ldap_organization: Example,LLC
+---
+ldap_domain: "example.com"
+ldap_admin: "admin"
+ldap_password: "password"
+ldap_protocol: "ldap"
+ldap_host: "localhost"
+ldap_organization: "Example,LLC"
 
 ldap_dn: "{{ldap_domain.split('.')|map('regex_replace', '^(.*)$', 'dc=\\1')|join(',')}}"
 ldap_admin_dn: "cn={{ldap_admin}},{{ldap_dn}}"
-

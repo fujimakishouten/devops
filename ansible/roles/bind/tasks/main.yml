@@ -1,56 +1,58 @@
-- name: Install BIND 
+---
+- name: "Install BIND"
   apt:
-    name:
-      - bind9
-    state: latest
+      name:
+          - "bind9"
+      state: "latest"
 
-- name: Ensure zone files directory
+- name: "Ensure zone files directory"
   file:
-    path: /etc/bind/zone
-    state: directory
+      path: "/etc/bind/zone"
+      state: "directory"
 
-- name: Ensure sample files directory
+- name: "Ensure sample files directory"
   file:
-    path: /etc/bind/samples
-    state: directory
+      path: "/etc/bind/samples"
+      state: "directory"
 
-- name: Ensure DNSSEC key directory
+- name: "Ensure DNSSEC key directory"
   file:
-    path: /etc/bind/keys
-    state: directory
+      path: "/etc/bind/keys"
+      state: "directory"
 
-- name: Copy named.conf.options file
+- name: "Copy named.conf.options file"
   copy:
-      src: named.conf.options
-      dest: /etc/bind/named.conf.options
-      backup: yes
-  notify: restart bind9
+      src: "named.conf.options"
+      dest: "/etc/bind/named.conf.options"
+      backup: true
+  notify: "restart bind9"
 
-- name: Copy named.comf.local file
+- name: "Copy named.comf.local file"
   template:
-      src: named.conf.local.j2
-      dest: /etc/bind/named.conf.local
-      backup: yes
-  notify: restart bind9
+      src: "named.conf.local.j2"
+      dest: "/etc/bind/named.conf.local"
+      backup: true
+  notify: "restart bind9"
 
-- name: Copy sample files
-  copy: src=samples dest=/etc/bind
-
-- name: Check apparmor status
-  stat:
-    path: /etc/apparmor.d
-  register: apparmor
-
-- name: Ensure apparmor local settings directory
-  file:
-      path: /etc/apparmor.d/local
-      state: directory
-  when: apparmor.stat.exists
-
-- name: Copy apparmor local setting
+- name: "Copy sample files"
   copy:
-      src: usr.sbin.named
-      dest: /etc/apparmor.d/local/usr.sbin.named
-      backup: yes
-  when: apparmor.stat.exists
+      src: "samples"
+      dest: "/etc/bind"
 
+- name: "Check apparmor status"
+  stat:
+      path: "/etc/apparmor.d"
+  register: "apparmor"
+
+- name: "Ensure apparmor local settings directory"
+  file:
+      path: "/etc/apparmor.d/local"
+      state: "directory"
+  when: "apparmor.stat.exists"
+
+- name: "Copy apparmor local setting"
+  copy:
+      src: "usr.sbin.named"
+      dest: "/etc/apparmor.d/local/usr.sbin.named"
+      backup: true
+  when: "apparmor.stat.exists"

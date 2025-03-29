@@ -1,29 +1,26 @@
-- name: Install required packages
+---
+- name: "Install required packages"
   apt:
     name:
-      - apt-transport-https
-    state: latest
+      - "apt-transport-https"
+    state: "latest"
 
-- name: Add microsoft key
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    keyring: /usr/share/keyrings/microsoft.gpg
-    state: present
+- name: "Add microsoft key"
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+    dest: "/usr/share/keyrings/microsoft.acs"
 
-- name: Copy sources list
+- name: "Copy sources list"
   copy:
-    src: "{{item}}"
-    dest: /etc/apt/sources.list.d
-  with_items:
-      - azure-cli.list
+    src: "sources.list.d/azure-cli.sources"
+    dest: "/etc/apt/sources.list.d"
 
-- name: Update cache
+- name: "Update cache"
   apt:
-    update_cache: yes
+    update_cache: true
 
-- name: Install azure-cli
+- name: "Install azure-cli"
   apt:
     name:
-      - azure-cli
-    state: latest
-
+      - "azure-cli"
+    state: "latest"

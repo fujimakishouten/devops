@@ -1,33 +1,34 @@
-- name: Install opendmarc
+---
+- name: "Install opendmarc"
   apt:
-    name: opendmarc
-    state: latest
+    name: "opendmarc"
+    state: "latest"
 
-- name: Ensure config directory
+- name: "Ensure config directory"
   file:
-    path: /etc/opendmarc
-    state: directory
+    path: "/etc/opendmarc"
+    state: "directory"
 
-- name: Get original opendmarc.conf status
+- name: "Get original opendmarc.conf status"
   stat:
-    path: /etc/opendkim.conf
-  register: opendmarc
+    path: "/etc/opendkim.conf"
+  register: "opendmarc"
 
-- name: Move opendmarc.conf to opendmarc directory
-  command: mv /etc/opendmarc.conf /etc/opendmarc/opendmarc.conf
-  when: not opendkim.stat.islnk
+- name: "Move opendmarc.conf to opendmarc directory"
+  command: |
+      mv "/etc/opendmarc.conf" "/etc/opendmarc/opendmarc.conf"
+  when: "not opendkim.stat.islnk"
 
-- name: Copy opendmarc.conf
+- name: "Copy opendmarc.conf"
   copy:
-    src: opendmarc.conf
-    dest: /etc/opendmarc/opendmarc.conf
-    backup: yes
-  notify: restart opendmarc
+    src: "opendmarc.conf"
+    dest: "/etc/opendmarc/opendmarc.conf"
+    backup: true
+  notify: "restart opendmarc"
 
-- name: Link opendmarc.conf
+- name: "Link opendmarc.conf"
   file:
-    src: /etc/opendmarc/opendmarc.conf
-    dest: /etc/opendmarc.conf
-    state: link
-  when: not opendkim.stat.islnk
-
+    src: "/etc/opendmarc/opendmarc.conf"
+    dest: "/etc/opendmarc.conf"
+    state: "link"
+  when: "not opendkim.stat.islnk"

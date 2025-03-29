@@ -1,8 +1,9 @@
-- hosts: development
-  become: yes
-  become_user: root
+---
+- hosts: "development"
+  become: true
+  become_user: "root"
   roles:
-    - ../roles/go
-    - ../roles/node
-    - ../roles/ocaml
-    - ../roles/python
+    - "../roles/go"
+    - "../roles/node"
+    - "../roles/ocaml"
+    - "../roles/python"

@@ -1,84 +1,86 @@
-- name: Install MySQL server
+---
+- name: "Install MySQL server"
   apt:
     name:
-      - default-mysql-server
-      - python3-pymysql
-    state: latest
-  register: mysql
+      - "default-mysql-server"
+      - "python3-pymysql"
+    state: "latest"
+  register: "mysql"
 
-- name: Restart MySQL
+- name: "Restart MySQL"
   service:
-    name: mysql
-    state: restarted
-  when: mysql.changed
+    name: "mysql"
+    state: "restarted"
+  when: "mysql.changed"
 
-- name: Ensure config directory
+- name: "Ensure config directory"
   file:
-    path: /etc/mysql/{{item}}
-    state: directory
+    path: "/etc/mysql/{{item}}"
+    state: "directory"
   with_items:
-    - conf.d
-    - mariadb.conf.d
+    - "conf.d"
+    - "mariadb.conf.d"
 
-- name: Copy confg files
+- name: "Copy confg files"
   copy:
-    src: conf.d/{{item}}
-    dest: /etc/mysql/conf.d/{{item}}
-    backup: yes
+    src: "conf.d/{{item}}"
+    dest: "/etc/mysql/conf.d/{{item}}"
+    backup: true
   with_items:
-    - isamchk.cnf
-    - mysql.cnf
-    - mysqldump.cnf
-  register: update_config
-  notify: restart mysql
+    - "isamchk.cnf"
+    - "mysql.cnf"
+    - "mysqldump.cnf"
+  register: "update_config"
+  notify: "restart mysql"
 
-- name: Copy mariadb config files
+- name: "Copy mariadb config files"
   copy:
-    src: mariadb.conf.d/{{item}}
-    dest: /etc/mysql/mariadb.conf.d/{{item}}
-    backup: yes
+    src: "mariadb.conf.d/{{item}}"
+    dest: "/etc/mysql/mariadb.conf.d/{{item}}"
+    backup: true
   with_items:
-    - 50-client.cnf
-    - 50-mysql-clients.cnf
-    - 50-mysqld_safe.cnf
-    - 50-server.cnf
-  register: update_mariadb_config
-  notify: restart mysql
+    - "50-client.cnf"
+    - "50-mysql-clients.cnf"
+    - "50-mysqld_safe.cnf"
+    - "50-server.cnf"
+  register: "update_mariadb_config"
+  notify: "restart mysql"
 
-- name: Ensure password file directory
+- name: "Ensure password file directory"
   file:
-    path: /usr/share/mysql/password
-    state: directory
-    mode: 750
+    path: "/usr/share/mysql/password"
+    state: "directory"
+    mode: 0750
 
-- name: Copy password file
+- name: "Copy password file"
   copy:
     src: "{{item}}"
-    dest: /usr/share/mysql/password/{{item}}
-    mode: 640
+    dest: "/usr/share/mysql/password/{{item}}"
+    mode: 0640
   with_items:
-    - dbroot
+    - "dbroot"
 
-- name: Register root user name
-  shell: cat /usr/share/mysql/password/dbroot | cut --delimiter=":" --fields=1
-  register: user
+- name: "Register root user name"
+  shell: |
+      cat /usr/share/mysql/password/dbroot | cut --delimiter=":" --fields=1
+  register: "user"
 
-- name: Register root password
-  shell: cat /usr/share/mysql/password/dbroot | cut --delimiter=":" --fields=2
-  register: password
+- name: "Register root password"
+  shell: |
+      cat /usr/share/mysql/password/dbroot | cut --delimiter=":" --fields=2
+  register: "password"
 
-- name: Ensure root user
+- name: "Ensure root user"
   mysql_user:
     name: "{{user.stdout}}"
     password: "{{password.stdout}}"
     priv: "*.*:ALL,GRANT"
-    state: present
-    login_unix_socket: /var/run/mysqld/mysqld.sock
+    state: "present"
+    login_unix_socket: "/var/run/mysqld/mysqld.sock"
 
-- name: .my.cnf
+- name: ".my.cnf"
   template:
-    src: my.cnf.j2
-    dest: ~/.my.cnf
-    mode: 600
-    backup: yes
-
+    src: "my.cnf.j2"
+    dest: "~/.my.cnf"
+    mode: 0600
+    backup: true

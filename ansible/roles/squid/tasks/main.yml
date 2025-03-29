@@ -1,12 +1,12 @@
-- name: Install Squid
+---
+- name: "Install Squid"
   apt:
-    name: squid
-    state: latest
+    name: "squid"
+    state: "latest"
 
-- name: Copy squid.conf
+- name: "Copy squid.conf"
   copy:
-    src: squid.conf
-    dest: /etc/squid/squid.conf
-    backup: yes
-  notify: restart squid
-
+    src: "squid.conf"
+    dest: "/etc/squid/squid.conf"
+    backup: true
+  notify: "restart squid"
