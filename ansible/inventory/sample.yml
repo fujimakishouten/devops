@@ -1,25 +1,32 @@
+---
 all:
   vars:
-    ansible_python_interpreter: /usr/bin/python3
+    ansible_python_interpreter: "/usr/bin/python3"
   children:
     development:
       hosts:
         localhost:
+          ansible_port: 22
     dns:
       children:
         bind:
           hosts:
             localhost:
+              ansible_port: 22
         nsd:
           localhost:
+            ansible_port: 22
     email:
       children:
         email-primary:
           hosts:
             localhost:
+              ansible_port: 22
         email-secondary:
           hosts:
             localhost:
+              ansible_port: 22
     web:
       hosts:
         localhost:
+          ansible_port: 22
