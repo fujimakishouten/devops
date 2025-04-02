@@ -39,6 +39,8 @@ packages:
   - "fish"
   - "fzf"
   - "git"
+  - "git-delta"
+  - "git-lfs"
   - "git-secret"
   - "global"
   - "grc"
