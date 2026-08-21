@@ -1,0 +1,14 @@
+---
+- name: "Install dnsdist"
+  apt:
+    name:
+      - "dnsdist"
+    state: "latest"
+
+- name: "Copy config template"
+  template:
+    src: "dnsdist.conf.j2"
+    dest: "/etc/dnsdist/dnsdist.conf"
+    backup: true
+  notify: "restart dnsdist"
+

@@ -1,0 +1,25 @@
+-- dnsdist configuration file, an example can be found in /usr/share/doc/dnsdist/examples/
+
+-- disable security status polling via DNS
+-- setSecurityPollSuffix("")
+
+-- dnsdist bind address
+setLocal("{{ bind }}")
+
+-- backend
+{% for server in servers %}
+newServer({
+    address="{{ server.address }}",
+    name="{{ server.name }}",
+    pool="{{ server.pool }}"
+})
+{% endfor %}
+
+-- action
+{% for action in actions %}
+addAction(
+    {{ action.action }},
+    PoolAction("{{ action.pool }}")
+)
+{% endfor %}
+

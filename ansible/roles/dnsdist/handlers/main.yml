@@ -1,0 +1,6 @@
+---
+- name: "restart dnsdist"
+  service:
+    name: "dnsdist"
+    state: "restarted"
+

@@ -1,0 +1,15 @@
+---
+bind: "0.0.0.0:53"
+servers:
+  - name: "nsd"
+    pool: "nsd"
+    address: "127.0.0.1:10053"
+  - name: "unbound"
+    pool: "unbound"
+    address: "127.0.0.1:20053"
+actions:
+  - action: "QNameSuffixRule(\"in-addr.arpa.\")"
+    pool: "nsd"
+  - action: "AllRule()"
+    pool: "unbound"
+
